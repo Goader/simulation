@@ -1,18 +1,21 @@
-package pl.edu.agh.cs.app.simulation.entities;
+package pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap;
 
 import pl.edu.agh.cs.app.simulation.data.Genotype;
+import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
+import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.maps.IWorldMap;
 import pl.edu.agh.cs.app.simulation.maps.MirrorMap;
-import pl.edu.agh.cs.app.simulation.maps.MirrorMapCell;
+import pl.edu.agh.cs.app.simulation.cells.MirrorMapCell;
+import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 import pl.edu.agh.cs.app.simulation.utils.*;
 
 import java.util.HashSet;
 import java.util.Optional;
 
-public class Animal implements IMapMovableElement {
+public class Animal extends AbstractJungleMapMovableElement {
     private MapOrientation oriented;
-    private IVector2d position;
+    private Vector2dBound position;
     private IWorldMap map;
     private final boolean PASSABLE = false;
     private final boolean MOVABLE = true;
@@ -24,12 +27,12 @@ public class Animal implements IMapMovableElement {
     private int moveEnergyCost;
     private int breedEnergyThreshold;
 
-    public Animal(IVector2d initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype, IWorldMap map) {
+    public Animal(Vector2dBound initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype, IWorldMap map) {
         this(initialPosition, startEnergy, moveEnergyCost, genotype);
         assignMap(map);
     }
 
-    public Animal(IVector2d initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype) {
+    public Animal(Vector2dBound initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype) {
         position = initialPosition;
         oriented = MapOrientation.NORTH;
         observers = new HashSet<>();
@@ -73,7 +76,7 @@ public class Animal implements IMapMovableElement {
     }
 
     @Override
-    public IVector2d getPosition() {
+    public Vector2dBound getPosition() {
         return position;
     }
 

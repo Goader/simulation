@@ -1,12 +1,15 @@
 package pl.edu.agh.cs.app.simulation.maps;
 
+import pl.edu.agh.cs.app.simulation.cells.IMapCell;
 import pl.edu.agh.cs.app.simulation.entities.IMapElement;
-import pl.edu.agh.cs.app.simulation.utils.IMoveObserver;
+import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
+import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 
 import java.util.Optional;
 
-public interface IWorldMap extends IMoveObserver {
+public interface IWorldMap<T extends IMapCell, IE extends IMapElement, EM extends IMapMovableElement>
+        extends IMoveObserver<EM> {
     /**
      * Indicate if any object can move to the given position.
      *
@@ -16,10 +19,7 @@ public interface IWorldMap extends IMoveObserver {
      *            The position checked for the movement possibility.
      * @return True if the object can move to that position.
      */
-    boolean canMoveTo(IMapElement element, IVector2d position);
-
-    // need a better name for it
-    Optional<IVector2d> canMoveToVector(IMapElement element, IVector2d position);
+    boolean canMoveTo(IE element, IVector2d position);
 
     /**
      * Place a animal on the map.
@@ -28,7 +28,7 @@ public interface IWorldMap extends IMoveObserver {
      *            The animal to place on the map.
      * @return True if the animal was placed. The animal cannot be placed if the map is already occupied.
      */
-    boolean place(IMapElement element);
+    boolean place(IE element);
 
     /**
      * Return true if given position on the map is occupied. Should not be
@@ -48,5 +48,5 @@ public interface IWorldMap extends IMoveObserver {
      *            The position of the Cell object.
      * @return Cell object or empty Optional if the position is not occupied.
      */
-    Optional<IMapCell> getCell(IVector2d position);
+    Optional<T> getCell(IVector2d position);
 }

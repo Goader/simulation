@@ -19,6 +19,14 @@ public class Vector2dBound extends AbstractVector2d {
                 y == vector2d.getY();
     }
 
+    public int getXBound() {
+        return xBound;
+    }
+
+    public int getYBound() {
+        return yBound;
+    }
+
     @Override
     public Vector2dBound upperRight(IVector2d other) {
         return new Vector2dBound(Math.min(Math.max(this.x, other.getX()), xBound),
