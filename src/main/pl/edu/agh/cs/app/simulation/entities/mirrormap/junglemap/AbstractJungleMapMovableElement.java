@@ -12,6 +12,7 @@ abstract public class AbstractJungleMapMovableElement
         extends AbstractMirrorMapMovableElement
         implements IJungleMapElement, IEatPublisher, IStarvePublisher, IBreedPublisher {
     protected int energy;
+    protected final int startEnergy;
     protected final int moveEnergyCost;
     protected final int breedEnergyThreshold;
 
@@ -30,10 +31,15 @@ abstract public class AbstractJungleMapMovableElement
 
         breedEnergyThreshold = startEnergy / 2;
         energy = startEnergy;
+        this.startEnergy = startEnergy;
         this.moveEnergyCost = moveEnergyCost;
 
         this.genotype = genotype;
     }
+
+    abstract public void eat(AbstractJungleMapNonMovableElement eatenElement, int eatenEnergy);
+
+    abstract public void breed(AbstractJungleMapMovableElement mate);
 
     public void rotate() {
         int angle = genotype.getRandomRotation();
@@ -45,10 +51,22 @@ abstract public class AbstractJungleMapMovableElement
         return energy;
     }
 
-    public void notifyEatObservers(AbstractJungleMapNonMovableElement element, Vector2dBound position) {
+    protected void takeEnergy(int energy) {
+        this.energy -= energy;
+    }
+
+    public Genotype getGenotype() {
+        return genotype;
+    }
+
+    public boolean canBreed() {
+        return energy > breedEnergyThreshold;
+    }
+
+    public void notifyEatObservers(AbstractJungleMapNonMovableElement element, int eatenEnergy, Vector2dBound position) {
         HashSet<IEatObserver> observersCopy = (HashSet<IEatObserver>) eatObservers.clone();
         for (IEatObserver observer : observersCopy) {
-            observer.ate(this, element, position);
+            observer.ate(this, element, eatenEnergy, position);
         }
     }
 
@@ -60,10 +78,10 @@ abstract public class AbstractJungleMapMovableElement
     }
 
     public void notifyBreedObservers(AbstractJungleMapMovableElement mate, AbstractJungleMapMovableElement child,
-                                     Vector2dBound position) {
+                                     int firstEnergyBefore, int secondEnergyBefore, Vector2dBound position) {
         HashSet<IBreedObserver> observersCopy = (HashSet<IBreedObserver>) breedObservers.clone();
         for (IBreedObserver observer : observersCopy) {
-            observer.bred(this, mate, child, position);
+            observer.bred(this, mate, child, firstEnergyBefore, secondEnergyBefore, position);
         }
     }
 

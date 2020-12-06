@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.app.simulation.maps;
 
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
+import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;
@@ -9,10 +10,13 @@ import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dEucl;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
 import pl.edu.agh.cs.app.simulation.observers.IEatObserver;
+import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.utils.MapOrientation;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Optional;
 
 public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E extends AbstractJungleMapNonMovableElement,
@@ -56,6 +60,50 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         return (T) new JungleMapCell(position);
     }
 
+    @Override
+    public boolean place(IE element) {
+        if (super.place(element)) {
+            if (element.isMovable()) {
+                T cell = cells.get(element.getPosition());
+                EM movableElement = (EM) element;
+                movableElement.addBreedObserver(cell);
+                movableElement.addBreedObserver(this);
+                movableElement.addEatObserver(cell);
+                movableElement.addStarveObserver(cell);
+                movableElement.addStarveObserver(this);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void feed() {
+        for (T cell : cells.values()) {
+            if (cell.hasMovableElements() && cell.hasNonMovableElements()) {
+                LinkedList<EM> elements = new LinkedList<>(cell.getMaxEnergyElements());
+                E plant = (E) cell.getNonMovableElements().getFirst();
+                int count = elements.size();
+                int energyPerEl = plant.getEnergy() / count;
+                int energyLeftover = plant.getEnergy() % count;
+                for (EM el : elements) {
+                    el.eat(plant, energyLeftover > 0 ? energyPerEl + 1 : energyLeftover);
+                    energyLeftover--;
+                }
+            }
+        }
+    }
+
+    public void bringTogether() {
+        for (T cell : cells.values()) {
+            if (cell.movableElementsCount() >= 2) {
+                Optional<Map.Entry<EM, EM>> optPair = cell.getBreedPair();
+                if (optPair.isEmpty()) continue;
+                Map.Entry<EM, EM> pair = optPair.get();
+                pair.getKey().breed(pair.getValue());
+            }
+        }
+    }
+
     public boolean isJungle(IVector2d position) {
         return position.follows(lowerleftJungleCorner) && position.precedes(upperrightJungleCorner);
     }
@@ -83,11 +131,21 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
                 return testPosition;
             }
         }
-        return position.add(new Vector2dEucl(1, 1));  // can be changed
+        return position.add(MapOrientation.fromInteger((int) Math.random() * MapOrientation.values().length).toUnitVector());
     }
 
     @Override
-    public void bred(EM firstElement, EM secondElement, EM newElement, IVector2d position) {
+    public void moved(EM movedElement, IVector2d oldPosition, IVector2d newPosition) {
+        T cell = cells.get(oldPosition);
+        movedElement.removeBreedObserver(cell);
+        movedElement.removeEatObserver(cell);
+        movedElement.removeStarveObserver(cell);
+        super.moved(movedElement, oldPosition, newPosition);
+    }
+
+    @Override
+    public void bred(EM firstElement, EM secondElement, EM newElement,
+                     int firstEnergyBefore, int secondEnergyBefore, IVector2d position) {
         place((IE) newElement);
     }
 
@@ -95,6 +153,12 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
     public void starved(EM starvedElement, IVector2d position) {
         JungleMapCell cell = getCell(position).get();
         starvedElement.removeStarveObserver(cell);
+        starvedElement.removeEatObserver(cell);
+        starvedElement.removeBreedObserver(cell);
+        starvedElement.removeMoveObserver(cell);
+        starvedElement.removeMoveObserver((IMoveObserver) this);
+        starvedElement.removeBreedObserver(this);
+        starvedElement.removeStarveObserver(this);
         if (cell.isEmpty() ||
                 (cell.nonMovableElementsCount() == 0 && cell.movableElementsCount() == 1
                         && cell.containsElement(starvedElement))) {

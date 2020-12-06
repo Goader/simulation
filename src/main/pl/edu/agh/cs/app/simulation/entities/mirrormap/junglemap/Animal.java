@@ -5,6 +5,7 @@ import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.maps.IWorldMap;
+import pl.edu.agh.cs.app.simulation.maps.JungleMap;
 import pl.edu.agh.cs.app.simulation.maps.MirrorMap;
 import pl.edu.agh.cs.app.simulation.cells.MirrorMapCell;
 import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
@@ -14,109 +15,49 @@ import java.util.HashSet;
 import java.util.Optional;
 
 public class Animal extends AbstractJungleMapMovableElement {
-    private MapOrientation oriented;
-    private Vector2dBound position;
-    private IWorldMap map;
-    private final boolean PASSABLE = false;
-    private final boolean MOVABLE = true;
-    private final HashSet<IMoveObserver> observers;
+    protected JungleMap map;
 
-    private final Genotype genotype;
-
-    private int energy;
-    private int moveEnergyCost;
-    private int breedEnergyThreshold;
-
-    public Animal(Vector2dBound initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype, IWorldMap map) {
-        this(initialPosition, startEnergy, moveEnergyCost, genotype);
-        assignMap(map);
-    }
-
-    public Animal(Vector2dBound initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype) {
-        position = initialPosition;
-        oriented = MapOrientation.NORTH;
-        observers = new HashSet<>();
-        energy = startEnergy;
-        this.moveEnergyCost = moveEnergyCost;
-        this.genotype = genotype;
-        breedEnergyThreshold = startEnergy / 2;
-    }
-
-    public boolean assignMap(IWorldMap map) {
-        Optional<IVector2d> optPosition = map.canMoveToVector(this, position);
-        if (optPosition.isEmpty()) {
-            return false;
-        }
-        position = optPosition.get();
+    public Animal(Vector2dBound initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype, JungleMap map) {
+        super(initialPosition, startEnergy, moveEnergyCost, genotype);
         this.map = map;
-        map.place(this);
-        return true;
     }
 
     @Override
-    public void addObserver(IMoveObserver observer) {
-        observers.add(observer);
+    public void eat(AbstractJungleMapNonMovableElement eatenElement, int eatenEnergy) {
+        energy += eatenEnergy;
+        notifyEatObservers(eatenElement, eatenEnergy, position);
     }
 
     @Override
-    public void removeObserver(IMoveObserver observer) {
-        observers.remove(observer);  // doesn't raise an exception if the element isn't present, as in Python
+    public void breed(AbstractJungleMapMovableElement mate) {
+        int childEnergy = this.energy / 4 + mate.getEnergy() / 4;
+        int mateOriginalEnergy = mate.getEnergy();
+        int thisOriginalEnergy = this.energy;
+        mate.takeEnergy(mate.getEnergy() / 4);
+        this.takeEnergy(this.energy / 4);
+
+        Genotype newGenotype = Genotype.fromTwoGenotypes(this.genotype, mate.genotype);
+
+        Animal child = new Animal(map.getFreeNeighbourPosition(position), startEnergy, moveEnergyCost, newGenotype, map);
+        child.takeEnergy(startEnergy - childEnergy);
+
+        notifyBreedObservers(mate, child, thisOriginalEnergy, mateOriginalEnergy, position);
     }
 
-    // ask of iterator, and removing inside
-    public void notifyObservers(IVector2d oldPosition, IVector2d newPosition) {
-        HashSet<IMoveObserver> observersCopy = (HashSet<IMoveObserver>) observers.clone();
-        for (IMoveObserver observer : observersCopy) {
-            observer.moved(this, oldPosition, newPosition);
-        }
-    }
-
-
-    private void validMove(IVector2d move) {
-        IVector2d newPosition = position.add(move);
-        Optional<IVector2d> optPosition = map.canMoveToVector(this, newPosition);
-        if (optPosition.isPresent()) {
-            IVector2d oldPosition = position;
-            position = optPosition.get();
-            notifyObservers(oldPosition, position);
+    public void starve() {
+        if (energy <= 0) {
+            notifyStarveObservers(position);
         }
     }
 
     @Override
     public void move() {
-        // we are assuming the Animal will starve if doesn't have enough energy to move
-        // still waiting for the answer of the teacher
-        if (energy < moveEnergyCost) {
-            starve();
+        starve();
+        Vector2dBound newPosition = position.add(oriented.toUnitVector());
+        if (map.canMoveTo(this, newPosition)) {
+            Vector2dBound oldPosition = position;
+            position = newPosition;
+            notifyMoveObservers(oldPosition, newPosition);
         }
-        else {
-            validMove(oriented.toUnitVector());
-        }
-    }
-
-    // can be also done like someone asks to starve, if we have <0 energy, we starve, if don't, then we ignore
-    private void starve() {
-        // notifyObservers();
-    }
-
-    public void eat() {
-        MirrorMapCell cell = (MirrorMapCell) map.getCell(position).get();
-        energy += cell.getEnergyConsumedBy(this);
-        // notifyObservers();
-    }
-
-    public void breed() {
-        MirrorMapCell cell = (MirrorMapCell) map.getCell(position).get();
-        Optional<IMapMovableElement> optEl = cell.canBreed(this);
-        if (optEl.isEmpty()) {
-            return;
-        }
-        Animal animal = (Animal) optEl.get();
-
-        MirrorMap mapm = (MirrorMap) map;
-        Animal child = new Animal(mapm.getFreeNeighbourPosition(position), energy, moveEnergyCost,
-                Genotype.fromTwoGenotypes(genotype, animal.genotype), map);
-
-        // notifyObservers();
     }
 }

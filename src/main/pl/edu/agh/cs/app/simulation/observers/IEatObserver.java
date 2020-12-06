@@ -5,5 +5,5 @@ import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleM
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 
 public interface IEatObserver<EM extends AbstractJungleMapMovableElement, EE extends AbstractJungleMapNonMovableElement> {
-    void ate(EM ateElement, EE eatenElement, IVector2d position);
+    void ate(EM ateElement, EE eatenElement, int eatenEnergy, IVector2d position);
 }

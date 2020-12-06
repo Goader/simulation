@@ -52,12 +52,12 @@ public class MirrorMapCell<IE extends IMirrorMapElement,
     }
 
     @Override
-    public List<E> getNonMovableElements() {
+    public LinkedList<E> getNonMovableElements() {
         return new LinkedList<>(nonMovableElements);
     }
 
     @Override
-    public List<EM> getMovableElements() {
+    public LinkedList<EM> getMovableElements() {
         return new LinkedList<>(movableElements);
     }
 

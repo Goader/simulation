@@ -6,6 +6,7 @@ import pl.edu.agh.cs.app.simulation.entities.IMapElement;
 import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
+import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -33,6 +34,11 @@ abstract public class AbstractWorldMap
                 cells.put(position, buildCell(position));
             }
             cells.get(position).addElement(element);
+            if (element.isMovable()) {
+                EM movableElement = (EM) element;
+                movableElement.addMoveObserver(cells.get(position));
+                movableElement.addMoveObserver((IMoveObserver<IMapMovableElement>) this);
+            }
             return true;
         }
         return false;

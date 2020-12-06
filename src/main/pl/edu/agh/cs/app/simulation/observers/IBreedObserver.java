@@ -4,5 +4,6 @@ import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleM
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 
 public interface IBreedObserver<EM extends AbstractJungleMapMovableElement> {
-    void bred(EM firstElement, EM secondElement, EM newElement, IVector2d position);
+    void bred(EM firstElement, EM secondElement, EM newElement,
+              int firstEnergyBefore, int secondEnergyBefore, IVector2d position);
 }
