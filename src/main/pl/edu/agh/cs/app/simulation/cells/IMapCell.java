@@ -6,7 +6,7 @@ import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 
 import java.util.List;
 
-public interface IMapCell<E extends IMapElement, EM extends IMapMovableElement> extends IMoveObserver<EM> {
+public interface IMapCell<IE extends IMapElement, E extends IMapElement, EM extends IMapMovableElement> extends IMoveObserver<EM> {
     int nonMovableElementsCount();
 
     int movableElementsCount();
@@ -17,15 +17,15 @@ public interface IMapCell<E extends IMapElement, EM extends IMapMovableElement> 
 
     boolean isEmpty();
 
-    boolean canMoveTo(E element);
+    boolean canMoveTo(IE element);
 
     List<E> getNonMovableElements();
 
     List<EM> getMovableElements();
 
-    void addElement(E element);
+    void addElement(IE element);
 
-    void removeElement(E element);
+    void removeElement(IE element);
 
-    boolean containsElement(E element);
+    boolean containsElement(IE element);
 }

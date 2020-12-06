@@ -3,17 +3,22 @@ package pl.edu.agh.cs.app.simulation.maps;
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapMovableElement;
+import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dEucl;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
+import pl.edu.agh.cs.app.simulation.observers.IEatObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.utils.MapOrientation;
 
 import java.util.HashSet;
+import java.util.Optional;
 
-public class JungleMap extends MirrorMap<JungleMapCell, AbstractJungleMapNonMovableElement, AbstractJungleMapMovableElement>
-        implements IStarveObserver<AbstractJungleMapMovableElement>, IBreedObserver<AbstractJungleMapMovableElement> {
+public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E extends AbstractJungleMapNonMovableElement,
+        EM extends AbstractJungleMapMovableElement>
+        extends MirrorMap<T, IE, E, EM>
+        implements IStarveObserver<EM>, IBreedObserver<EM> {
     protected HashSet<Vector2dBound> emptyJungleCells;
     protected HashSet<Vector2dBound> emptyNonJungleCells;
     protected final Vector2dBound lowerleftJungleCorner;
@@ -46,8 +51,21 @@ public class JungleMap extends MirrorMap<JungleMapCell, AbstractJungleMapNonMova
         }
     }
 
+    @Override
+    protected T buildCell(Vector2dBound position) {
+        return (T) new JungleMapCell(position);
+    }
+
     public boolean isJungle(IVector2d position) {
         return position.follows(lowerleftJungleCorner) && position.precedes(upperrightJungleCorner);
+    }
+
+    public Optional<Vector2dBound> getRandomEmptyJungleCell() {
+        return Optional.empty();
+    }
+
+    public Optional<Vector2dBound> getRandomEmptyNonJungleCell() {
+        return Optional.empty();
     }
 
     public int getJungleHeight() {
@@ -69,14 +87,14 @@ public class JungleMap extends MirrorMap<JungleMapCell, AbstractJungleMapNonMova
     }
 
     @Override
-    public void bred(AbstractJungleMapMovableElement firstElement, AbstractJungleMapMovableElement secondElement,
-                     AbstractJungleMapMovableElement newElement, IVector2d position) {
-        place(newElement);
+    public void bred(EM firstElement, EM secondElement, EM newElement, IVector2d position) {
+        place((IE) newElement);
     }
 
     @Override
-    public void starved(AbstractJungleMapMovableElement starvedElement, IVector2d position) {
+    public void starved(EM starvedElement, IVector2d position) {
         JungleMapCell cell = getCell(position).get();
+        starvedElement.removeStarveObserver(cell);
         if (cell.isEmpty() ||
                 (cell.nonMovableElementsCount() == 0 && cell.movableElementsCount() == 1
                         && cell.containsElement(starvedElement))) {

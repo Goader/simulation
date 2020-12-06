@@ -12,26 +12,37 @@ abstract public class AbstractMirrorMapMovableElement
     protected Vector2dBound position;
     protected final boolean MOVABLE = true;
     protected MapOrientation oriented;
-    protected HashSet<IMoveObserver> observers;
+    protected final HashSet<IMoveObserver> moveObservers;
 
     public AbstractMirrorMapMovableElement(Vector2dBound initialPosition) {
         position = initialPosition;
-        observers = new HashSet<>();
+        moveObservers = new HashSet<>();
         oriented = MapOrientation.fromInteger((int) Math.random() * MapOrientation.values().length);
+    }
+
+    public void notifyMoveObservers(Vector2dBound oldPosition, Vector2dBound newPosition) {
+        HashSet<IMoveObserver> observersCopy = (HashSet<IMoveObserver>) moveObservers.clone();
+        for (IMoveObserver observer : observersCopy) {
+            observer.moved(this, oldPosition, newPosition);
+        }
     }
 
     @Override
     public void addMoveObserver(IMoveObserver<IMapMovableElement> observer) {
-        observers.add(observer);
+        moveObservers.add(observer);
     }
 
     @Override
     public void removeMoveObserver(IMoveObserver<IMapMovableElement> observer) {
-        observers.remove(observer);
+        moveObservers.remove(observer);
     }
 
     public Vector2dBound getPosition() {
         return position;
+    }
+
+    public MapOrientation getOrientation() {
+        return oriented;
     }
 
     @Override

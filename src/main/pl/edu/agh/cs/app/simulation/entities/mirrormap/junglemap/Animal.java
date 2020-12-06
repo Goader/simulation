@@ -71,23 +71,6 @@ public class Animal extends AbstractJungleMapMovableElement {
         }
     }
 
-    public MapOrientation getOrientation() {
-        return oriented;
-    }
-
-    @Override
-    public Vector2dBound getPosition() {
-        return position;
-    }
-
-    public int getEnergy() {
-        return energy;
-    }
-
-    public void rotate() {
-        int angle = genotype.getRandomRotation();
-        oriented = oriented.rotate(angle);
-    }
 
     private void validMove(IVector2d move) {
         IVector2d newPosition = position.add(move);
@@ -109,7 +92,6 @@ public class Animal extends AbstractJungleMapMovableElement {
         else {
             validMove(oriented.toUnitVector());
         }
-
     }
 
     // can be also done like someone asks to starve, if we have <0 energy, we starve, if don't, then we ignore
@@ -136,15 +118,5 @@ public class Animal extends AbstractJungleMapMovableElement {
                 Genotype.fromTwoGenotypes(genotype, animal.genotype), map);
 
         // notifyObservers();
-    }
-
-    @Override
-    public boolean isPassable() {
-        return PASSABLE;
-    }
-
-    @Override
-    public boolean isMovable() {
-        return MOVABLE;
     }
 }

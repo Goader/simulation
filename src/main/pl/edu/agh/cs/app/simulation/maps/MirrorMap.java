@@ -10,7 +10,7 @@ import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 public class MirrorMap
         <T extends MirrorMapCell, IE extends IMirrorMapElement, E extends AbstractMirrorMapNonMovableElement,
                 EM extends AbstractMirrorMapMovableElement>
-        extends AbstractWorldMap<T, Vector2dBound, IE, E, EM> {
+        extends AbstractWorldMap<T, Vector2dBound, IE, EM> {
     private final int width;
     private final int height;
     private final int maxX;
@@ -25,25 +25,23 @@ public class MirrorMap
     }
 
     @Override
+    protected T buildCell(Vector2dBound position) {
+        return (T) new MirrorMapCell<IE, E, EM>(position);
+    }
+
+    @Override
     public boolean place(IE element) {
         Vector2dBound position = element.getPosition();
         if (position.getXBound() != maxX + 1 || position.getYBound() != maxY) {
             return false;
         }
-        if (canMoveTo(element, position)) {
-            if (!containsCellAt(position)) {
-                cells.put(position, (T) new MirrorMapCell(position));
-            }
-            cells.get(position).addElement(element);
-            return true;
-        }
-        return false;
+        return super.place(element);
     }
 
     @Override
     public void moved(EM movedElement, IVector2d oldPosition, IVector2d newPosition) {
         movedElement.removeMoveObserver(cells.get(oldPosition));  // we are sure it still exists
-        place((E) movedElement);  // creates MapCell at the newPosition if there is null
+        place((IE) movedElement);  // creates MapCell at the newPosition if there is null
         movedElement.addMoveObserver(cells.get(newPosition));  // we are sure it is created
         MirrorMapCell cell = getCell(oldPosition).get();
         // If there is no elements in cell or there is left only movedElement, but the cell hasn't deleted it yet,

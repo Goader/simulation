@@ -2,12 +2,14 @@ package pl.edu.agh.cs.app.simulation.cells;
 
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapMovableElement;
+import pl.edu.agh.cs.app.simulation.entities.mirrormap.IMirrorMapElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 
 import java.util.*;
 
-public class MirrorMapCell<E extends AbstractMirrorMapNonMovableElement, EM extends AbstractMirrorMapMovableElement>
-        implements IMapCell<E, EM> {
+public class MirrorMapCell<IE extends IMirrorMapElement,
+        E extends AbstractMirrorMapNonMovableElement, EM extends AbstractMirrorMapMovableElement>
+        implements IMapCell<IE, E, EM> {
     protected HashSet<E> nonMovableElements;
     protected HashSet<EM> movableElements;
 
@@ -45,7 +47,7 @@ public class MirrorMapCell<E extends AbstractMirrorMapNonMovableElement, EM exte
     }
 
     @Override
-    public boolean canMoveTo(E element) {
+    public boolean canMoveTo(IE element) {
         return element.isMovable();
     }
 
@@ -60,17 +62,17 @@ public class MirrorMapCell<E extends AbstractMirrorMapNonMovableElement, EM exte
     }
 
     @Override
-    public void addElement(E element) {
+    public void addElement(IE element) {
         if (element.isMovable()) {
             movableElements.add((EM) element);
         }
         else {
-            nonMovableElements.add(element);
+            nonMovableElements.add((E) element);
         }
     }
 
     @Override
-    public void removeElement(E element) {
+    public void removeElement(IE element) {
         if (element.isMovable()) {
             movableElements.remove(element);
         }
@@ -80,7 +82,7 @@ public class MirrorMapCell<E extends AbstractMirrorMapNonMovableElement, EM exte
     }
 
     @Override
-    public boolean containsElement(E element) {
+    public boolean containsElement(IE element) {
         if (element.isMovable()) {
             return movableElements.contains(element);
         }
@@ -91,6 +93,6 @@ public class MirrorMapCell<E extends AbstractMirrorMapNonMovableElement, EM exte
 
     @Override
     public void moved(EM movedElement, IVector2d oldPosition, IVector2d newPosition) {
-        removeElement((E) movedElement);
+        removeElement((IE) movedElement);
     }
 }
