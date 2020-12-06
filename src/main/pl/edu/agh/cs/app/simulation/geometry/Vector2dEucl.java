@@ -1,6 +1,5 @@
 package pl.edu.agh.cs.app.simulation.geometry;
 
-import java.util.Objects;
 import java.lang.Math;
 
 public class Vector2dEucl extends AbstractVector2d {

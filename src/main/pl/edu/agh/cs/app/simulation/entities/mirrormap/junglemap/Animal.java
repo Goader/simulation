@@ -1,18 +1,8 @@
 package pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap;
 
 import pl.edu.agh.cs.app.simulation.data.Genotype;
-import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
-import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
-import pl.edu.agh.cs.app.simulation.maps.IWorldMap;
 import pl.edu.agh.cs.app.simulation.maps.JungleMap;
-import pl.edu.agh.cs.app.simulation.maps.MirrorMap;
-import pl.edu.agh.cs.app.simulation.cells.MirrorMapCell;
-import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
-import pl.edu.agh.cs.app.simulation.utils.*;
-
-import java.util.HashSet;
-import java.util.Optional;
 
 public class Animal extends AbstractJungleMapMovableElement {
     protected JungleMap map;

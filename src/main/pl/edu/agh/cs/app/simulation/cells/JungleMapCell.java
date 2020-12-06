@@ -1,10 +1,5 @@
 package pl.edu.agh.cs.app.simulation.cells;
 
-import pl.edu.agh.cs.app.simulation.entities.IMapElement;
-import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapMovableElement;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapNonMovableElement;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.IMirrorMapElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;

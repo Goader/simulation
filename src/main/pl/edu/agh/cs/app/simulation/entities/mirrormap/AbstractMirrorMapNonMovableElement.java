@@ -1,10 +1,6 @@
 package pl.edu.agh.cs.app.simulation.entities.mirrormap;
 
-import pl.edu.agh.cs.app.simulation.entities.IMapElement;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
-import pl.edu.agh.cs.app.simulation.maps.IWorldMap;
-import pl.edu.agh.cs.app.simulation.maps.MirrorMap;
-import pl.edu.agh.cs.app.simulation.utils.MapOrientation;
 
 abstract public class AbstractMirrorMapNonMovableElement implements IMirrorMapElement {
     protected Vector2dBound position;

@@ -1,10 +1,8 @@
 package pl.edu.agh.cs.app.simulation.observers;
 
-import pl.edu.agh.cs.app.simulation.entities.IMapElement;
 import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 
-// is it okay to create such a big observer? or should we divide it into 4 different ones?
 public interface IMoveObserver<EM extends IMapMovableElement> {
     /**
      * By getting the context of changes and making appropriate changes inside, provides the cohesion of the states.

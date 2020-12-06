@@ -1,15 +1,12 @@
 package pl.edu.agh.cs.app.simulation.maps;
 
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
-import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
-import pl.edu.agh.cs.app.simulation.geometry.Vector2dEucl;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
-import pl.edu.agh.cs.app.simulation.observers.IEatObserver;
 import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.utils.MapOrientation;

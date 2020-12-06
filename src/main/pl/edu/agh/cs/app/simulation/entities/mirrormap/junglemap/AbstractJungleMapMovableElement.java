@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap;
 
 import pl.edu.agh.cs.app.simulation.data.Genotype;
-import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.observers.*;

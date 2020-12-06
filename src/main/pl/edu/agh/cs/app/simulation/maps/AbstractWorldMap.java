@@ -1,11 +1,9 @@
 package pl.edu.agh.cs.app.simulation.maps;
 
 import pl.edu.agh.cs.app.simulation.cells.IMapCell;
-import pl.edu.agh.cs.app.simulation.cells.MirrorMapCell;
 import pl.edu.agh.cs.app.simulation.entities.IMapElement;
 import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
-import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 
 import java.util.HashMap;
