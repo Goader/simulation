@@ -56,6 +56,7 @@ abstract public class AbstractWorldMap
         return containsCellAt(position) && !cells.get(position).isEmpty();
     }
 
+    // not the best idea, it does not follow encapsulation, may be fixed later
     @Override
     public Optional<T> getCell(IVector2d position) {
         return Optional.ofNullable(cells.get(position));

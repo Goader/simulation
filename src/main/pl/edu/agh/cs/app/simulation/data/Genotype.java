@@ -39,7 +39,7 @@ public class Genotype {
             throw new IllegalArgumentException("There are exactly " + GENES_COUNT + " genes. " +
                     "Genes list must have the length of " + GENES_COUNT + ".");
         }
-        if (genesList.stream().allMatch(x -> x >= 0 && x < GENE_TYPES)) {
+        if (!genesList.stream().allMatch(x -> x >= 0 && x < GENE_TYPES)) {
             throw new IllegalArgumentException("The values inside the genes list must be in the range of " +
                     "[0, " + GENE_TYPES + "].");
         }
@@ -50,9 +50,10 @@ public class Genotype {
         this.genesCounter = new ArrayList<>(genesCounter);
     }
 
-    private static ArrayList<Integer> genesCounterToList(List<Integer> genesCounter) {
+    public static ArrayList<Integer> genesCounterToList(List<Integer> genesCounter) {
         validateCounter(genesCounter);
         ArrayList<Integer> genesList = new ArrayList<>(GENES_COUNT);
+        while(genesList.size() < GENES_COUNT) genesList.add(0);
         for (int geneType = 0, i = 0; geneType < GENE_TYPES; geneType++) {
             for (int geneCount = 0; geneCount < genesCounter.get(geneType); geneCount++, i++) {
                 genesList.set(i, geneType);
@@ -61,9 +62,10 @@ public class Genotype {
         return genesList;
     }
 
-    private static ArrayList<Integer> genesListToCounter(List<Integer> genesList) {
+    public static ArrayList<Integer> genesListToCounter(List<Integer> genesList) {
         validateList(genesList);
         ArrayList<Integer> genesCounter = new ArrayList<>(GENE_TYPES);
+        while(genesCounter.size() < GENE_TYPES) genesCounter.add(0);
         for (Integer geneType : genesList) {
             genesCounter.set(geneType, genesCounter.get(geneType) + 1);
         }

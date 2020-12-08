@@ -37,6 +37,9 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         upperrightJungleCorner = new Vector2dBound(lowerleftJungleCorner.getX() + jungleWidth - 1,
                 lowerleftJungleCorner.getY() + jungleHeight - 1, width, height);
 
+        emptyJungleCells = new HashSet<>();
+        emptyNonJungleCells = new HashSet<>();
+
         // Saving empty cells to select random ones efficiently
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {

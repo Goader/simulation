@@ -18,6 +18,9 @@ public class MirrorMap
 
     public MirrorMap(int width, int height) {
         super();
+        if (width <= 1 || height <= 1) {
+            throw new IllegalArgumentException("Map width and height must be at least of length 2");
+        }
         this.width = width;
         this.height = height;
         maxX = width - 1;
@@ -32,7 +35,7 @@ public class MirrorMap
     @Override
     public boolean place(IE element) {
         Vector2dBound position = element.getPosition();
-        if (position.getXBound() != maxX + 1 || position.getYBound() != maxY) {
+        if ((position.getXBound() != (maxX + 1)) || (position.getYBound() != (maxY + 1))) {
             return false;
         }
         return super.place(element);
@@ -42,7 +45,7 @@ public class MirrorMap
     public void moved(EM movedElement, IVector2d oldPosition, IVector2d newPosition) {
         movedElement.removeMoveObserver(cells.get(oldPosition));  // we are sure it still exists
         place((IE) movedElement);  // creates MapCell at the newPosition if there is null
-        movedElement.addMoveObserver(cells.get(newPosition));  // we are sure it is created
+        // movedElement.addMoveObserver(cells.get(newPosition));  // we are sure it is created
         MirrorMapCell cell = getCell(oldPosition).get();
         // If there is no elements in cell or there is left only movedElement, but the cell hasn't deleted it yet,
         // then we just remove the cell from the HashMap, because after notifying all the observers it will be empty

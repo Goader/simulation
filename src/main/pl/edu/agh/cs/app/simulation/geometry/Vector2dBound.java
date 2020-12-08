@@ -5,7 +5,7 @@ public class Vector2dBound extends AbstractVector2d {
     private final int yBound;
 
     public Vector2dBound(int x, int y, int xBound, int yBound) {
-        super(x % xBound, y % yBound);
+        super(mod(x, xBound), mod(y, yBound));
         this.xBound = xBound;
         this.yBound = yBound;
     }
@@ -27,6 +27,10 @@ public class Vector2dBound extends AbstractVector2d {
         return yBound;
     }
 
+    private static int mod(int dividend, int divisor) {
+        return ((dividend % divisor) + divisor) % divisor;
+    }
+
     @Override
     public Vector2dBound upperRight(IVector2d other) {
         return new Vector2dBound(Math.min(Math.max(this.x, other.getX()), xBound),
@@ -43,18 +47,18 @@ public class Vector2dBound extends AbstractVector2d {
 
     @Override
     public Vector2dBound add(IVector2d other) {
-        return new Vector2dBound((this.x + other.getX()) % xBound, (this.y + other.getY()) % yBound,
+        return new Vector2dBound(mod((this.x + other.getX()), xBound), mod((this.y + other.getY()), yBound),
                                 xBound, yBound);
     }
 
     @Override
     public Vector2dBound subtract(IVector2d other) {
-        return new Vector2dBound((this.x - other.getX()) % xBound, (this.y - other.getY()) % yBound,
+        return new Vector2dBound(mod((this.x - other.getX()), xBound), mod((this.y - other.getY()), yBound),
                                 xBound, yBound);
     }
 
     @Override
     public Vector2dBound opposite() {
-        return new Vector2dBound(-this.x % xBound, -this.y % yBound, xBound, yBound);
+        return new Vector2dBound(mod(-this.x, xBound), mod(-this.y, yBound), xBound, yBound);
     }
 }
