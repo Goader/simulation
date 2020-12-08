@@ -28,7 +28,8 @@ public enum MapOrientation {
 
     public MapOrientation rotate(int angle) {
         int current_angle = toInteger(this);
-        int new_angle = (current_angle + angle) % MapOrientation.values().length;
+        int enumLen = MapOrientation.values().length;
+        int new_angle = (((current_angle + angle) % enumLen) + enumLen) % enumLen;
         return fromInteger(new_angle);
     }
 

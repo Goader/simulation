@@ -62,6 +62,8 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
 
     @Override
     public boolean place(IE element) {
+        boolean wasEmptyCell = false;
+        if (!cells.containsKey(element.getPosition())) wasEmptyCell = true;
         if (super.place(element)) {
             if (element.isMovable()) {
                 T cell = cells.get(element.getPosition());
@@ -71,6 +73,14 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
                 movableElement.addEatObserver(cell);
                 movableElement.addStarveObserver(cell);
                 movableElement.addStarveObserver(this);
+            }
+            if (wasEmptyCell) {
+                if (isJungle(element.getPosition())) {
+                    emptyJungleCells.remove(element.getPosition());
+                }
+                else {
+                    emptyNonJungleCells.remove(element.getPosition());
+                }
             }
             return true;
         }
@@ -108,12 +118,20 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         return position.follows(lowerleftJungleCorner) && position.precedes(upperrightJungleCorner);
     }
 
-    public Optional<Vector2dBound> getRandomEmptyJungleCell() {
-        return Optional.empty();
+    public Optional<Vector2dBound> getRandomEmptyJungleCellPosition() {
+        int size = emptyJungleCells.size();
+        if (size == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(emptyJungleCells.toArray(new Vector2dBound[0])[(int) (Math.random() * size)]); // check places for (int) near the rand
     }
 
-    public Optional<Vector2dBound> getRandomEmptyNonJungleCell() {
-        return Optional.empty();
+    public Optional<Vector2dBound> getRandomEmptyNonJungleCellPosition() {
+        int size = emptyNonJungleCells.size();
+        if (size == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(emptyNonJungleCells.toArray(new Vector2dBound[0])[(int) (Math.random() * size)]);
     }
 
     public int getJungleHeight() {
@@ -141,6 +159,14 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         movedElement.removeEatObserver(cell);
         movedElement.removeStarveObserver(cell);
         super.moved(movedElement, oldPosition, newPosition);
+        if (!cells.containsKey(oldPosition)) {
+            if (isJungle(oldPosition)) {
+                emptyJungleCells.add((Vector2dBound) oldPosition);
+            }
+            else {
+                emptyNonJungleCells.add((Vector2dBound) oldPosition);
+            }
+        }
     }
 
     @Override
@@ -163,6 +189,12 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
                 (cell.nonMovableElementsCount() == 0 && cell.movableElementsCount() == 1
                         && cell.containsElement(starvedElement))) {
             cells.remove(position);
+            if (isJungle(position)) {
+                emptyJungleCells.add((Vector2dBound) position);
+            }
+            else {
+                emptyNonJungleCells.add((Vector2dBound) position);
+            }
         }
     }
 }

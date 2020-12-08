@@ -62,13 +62,14 @@ public class MirrorMapCell<IE extends IMirrorMapElement,
     }
 
     @Override
-    public void addElement(IE element) {
+    public boolean addElement(IE element) {
         if (element.isMovable()) {
             movableElements.add((EM) element);
         }
         else {
             nonMovableElements.add((E) element);
         }
+        return true;
     }
 
     @Override

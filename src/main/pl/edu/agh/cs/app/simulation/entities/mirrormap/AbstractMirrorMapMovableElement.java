@@ -17,7 +17,7 @@ abstract public class AbstractMirrorMapMovableElement
     public AbstractMirrorMapMovableElement(Vector2dBound initialPosition) {
         position = initialPosition;
         moveObservers = new HashSet<>();
-        oriented = MapOrientation.fromInteger((int) Math.random() * MapOrientation.values().length);
+        oriented = MapOrientation.fromInteger((int) (Math.random() * MapOrientation.values().length));
     }
 
     public void notifyMoveObservers(Vector2dBound oldPosition, Vector2dBound newPosition) {

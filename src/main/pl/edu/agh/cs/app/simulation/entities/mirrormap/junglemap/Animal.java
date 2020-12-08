@@ -40,6 +40,7 @@ public class Animal extends AbstractJungleMapMovableElement {
         }
     }
 
+    // when energy is subtracted??
     @Override
     public void move() {
         starve();

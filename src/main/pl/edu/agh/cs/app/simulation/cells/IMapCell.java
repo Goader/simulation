@@ -23,7 +23,7 @@ public interface IMapCell<IE extends IMapElement, E extends IMapElement, EM exte
 
     List<EM> getMovableElements();
 
-    void addElement(IE element);
+    boolean addElement(IE element);
 
     void removeElement(IE element);
 

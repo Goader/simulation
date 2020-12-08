@@ -32,22 +32,22 @@ public class JungleMapCell<IE extends IJungleMapElement,
         HashSet<EM> maxEnergyElements = getMaxEnergyElements();
         LinkedList<EM> pair = new LinkedList<>();
         for (EM el : maxEnergyElements) {
-            if (pair.size() == 2) {
-                return Optional.of(new SimpleEntry<>(pair.getFirst(), pair.getLast()));
-            }
             if (el.canBreed()) {
                 pair.add(el);
+            }
+            if (pair.size() == 2) {
+                return Optional.of(new SimpleEntry<>(pair.getFirst(), pair.getLast()));
             }
         }
         if (pair.isEmpty() || maxEnergyElements.size() != 1) {
             return Optional.empty();
         }
         for (EM el : energyTree.lowerEntry(energyTree.lastKey()).getValue()) {
-            if (pair.size() == 2) {
-                return Optional.of(new SimpleEntry<>(pair.getFirst(), pair.getLast()));
-            }
             if (el.canBreed()) {
                 pair.add(el);
+            }
+            if (pair.size() == 2) {
+                return Optional.of(new SimpleEntry<>(pair.getFirst(), pair.getLast()));
             }
         }
         return Optional.empty();
@@ -68,17 +68,18 @@ public class JungleMapCell<IE extends IJungleMapElement,
     }
 
     @Override
-    public void addElement(IE element) {
+    public boolean addElement(IE element) {
         if (!element.isMovable() && hasNonMovableElements()) {
-            return;
+            return false;
         }
-        super.addElement(element);
-        if (element.isMovable()) {
+        boolean set = super.addElement(element);
+        if (set && element.isMovable()) {
             if (!energyTree.containsKey(element.getEnergy())) {
                 energyTree.put(element.getEnergy(), new HashSet<>());
             }
             energyTree.get(element.getEnergy()).add((EM) element);
         }
+        return set;
     }
 
     private void removeNodeIfNeeded(int energy) {

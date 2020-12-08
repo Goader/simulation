@@ -31,13 +31,13 @@ abstract public class AbstractWorldMap
                 // problem with instanciating T, builder method used, that needs to be implemented
                 cells.put(position, buildCell(position));
             }
-            cells.get(position).addElement(element);
-            if (element.isMovable()) {
+            boolean set = cells.get(position).addElement(element);
+            if (set && element.isMovable()) {
                 EM movableElement = (EM) element;
                 movableElement.addMoveObserver(cells.get(position));
                 movableElement.addMoveObserver((IMoveObserver<IMapMovableElement>) this);
             }
-            return true;
+            return set;
         }
         return false;
     }
