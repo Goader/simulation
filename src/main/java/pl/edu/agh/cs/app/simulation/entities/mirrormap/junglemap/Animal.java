@@ -1,5 +1,6 @@
 package pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap;
 
+import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.maps.JungleMap;
@@ -34,8 +35,12 @@ public class Animal extends AbstractJungleMapMovableElement {
         notifyBreedObservers(mate, child, thisOriginalEnergy, mateOriginalEnergy, position);
     }
 
+    protected boolean willStarve() {
+        return energy <= 0;
+    }
+
     public void starve() {
-        if (energy <= 0) {
+        if (willStarve()) {
             notifyStarveObservers(position);
         }
     }
@@ -43,12 +48,22 @@ public class Animal extends AbstractJungleMapMovableElement {
     // when energy is subtracted??
     @Override
     public void move() {
-        starve();
-        Vector2dBound newPosition = position.add(oriented.toUnitVector());
-        if (map.canMoveTo(this, newPosition)) {
-            Vector2dBound oldPosition = position;
-            position = newPosition;
-            notifyMoveObservers(oldPosition, newPosition);
+        if (willStarve()) {
+            starve();
+        }
+        else {
+            Vector2dBound newPosition = position.add(oriented.toUnitVector());
+            if (map.canMoveTo(this, newPosition)) {
+                Vector2dBound oldPosition = position;
+                position = newPosition;
+                notifyMoveObservers(oldPosition, newPosition);
+
+                // handling energy change
+                JungleMapCell cell = (JungleMapCell) map.getCell(position).get();
+                cell.removeElement(this);
+                energy -= moveEnergyCost;
+                cell.addElement(this);
+            }
         }
     }
 }

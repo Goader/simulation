@@ -83,7 +83,7 @@ public class JungleMapCell<IE extends IJungleMapElement,
     }
 
     private void removeNodeIfNeeded(int energy) {
-        if (energyTree.get(energy).isEmpty()) {
+        if (energyTree.containsKey(energy) && energyTree.get(energy).isEmpty()) {
             energyTree.remove(energy);
         }
     }

@@ -64,10 +64,14 @@ public class MirrorMapCell<IE extends IMirrorMapElement,
     @Override
     public boolean addElement(IE element) {
         if (element.isMovable()) {
-            movableElements.add((EM) element);
+            if (!movableElements.contains(element)) {
+                movableElements.add((EM) element);
+            }
         }
         else {
-            nonMovableElements.add((E) element);
+            if (!nonMovableElements.contains(element)) {
+                nonMovableElements.add((E) element);
+            }
         }
         return true;
     }

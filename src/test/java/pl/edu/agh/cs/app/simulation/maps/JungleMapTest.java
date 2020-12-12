@@ -513,79 +513,135 @@ class JungleMapTest {
         assertEquals(animal33.getEnergy(), 4);
     }
 
-//    @Test
-//    void bringTogetherTest() {
-//        JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map = new JungleMap<>(10, 10, 4, 4);
-//        Vector2dBound vec1 = new Vector2dBound(2, 3, 10, 10);
-//        Vector2dBound vec2 = new Vector2dBound(5, 5, 10, 10);
-//        Vector2dBound vec3 = new Vector2dBound(9, 1, 10, 10);
-//
-//        Plant plant = new Plant(vec1, 0);
-//
-//        Animal animal11 = new Animal(vec1, 30, 0, genotype, map);
-//        animal11.eat(plant, -17);
-//        Animal animal12 = new Animal(vec1, 30, 0, genotype, map);
-//        Animal animal13 = new Animal(vec1, 13, 0, genotype, map);
-//        Animal animal14 = new Animal(vec1, 4, 0, genotype, map);
-//
-//        Animal animal21 = new Animal(vec2, 10, 0, genotype, map);
-//        Animal animal22 = new Animal(vec2, 15, 0, genotype, map);
-//        Animal animal23 = new Animal(vec2, 4, 0, genotype, map);
-//
-//        Animal animal31 = new Animal(vec3, 10, 0, genotype, map);
-//        Animal animal32 = new Animal(vec3, 10, 0, genotype, map);
-//        Animal animal33 = new Animal(vec3, 4, 0, genotype, map);
-//
-//        Animal b11 = new Animal(new Vector2dBound(2, 2, 10, 10), 10, 0, null, map);
-//        Animal b12 = new Animal(new Vector2dBound(2, 4, 10, 10), 10, 0, null, map);
-//        Animal b13 = new Animal(new Vector2dBound(1, 2, 10, 10), 10, 0, null, map);
-//        Animal b14 = new Animal(new Vector2dBound(1, 3, 10, 10), 10, 0, null, map);
-//        Animal b15 = new Animal(new Vector2dBound(1, 4, 10, 10), 10, 0, null, map);
-//        Animal b16 = new Animal(new Vector2dBound(3, 2, 10, 10), 10, 0, null, map);
-//        Animal b17 = new Animal(new Vector2dBound(3, 4, 10, 10), 10, 0, null, map);
-//        // (3, 3) left
-//
-//        Animal b21 = new Animal(new Vector2dBound(4, 4, 10, 10), 10, 0, null, map);
-//        Animal b22 = new Animal(new Vector2dBound(5, 4, 10, 10), 10, 0, null, map);
-//        Animal b23 = new Animal(new Vector2dBound(6, 4, 10, 10), 10, 0, null, map);
-//        Animal b24 = new Animal(new Vector2dBound(4, 5, 10, 10), 10, 0, null, map);
-//        Animal b25 = new Animal(new Vector2dBound(6, 5, 10, 10), 10, 0, null, map);
-//        Animal b26 = new Animal(new Vector2dBound(4, 6, 10, 10), 10, 0, null, map);
-//        Animal b27 = new Animal(new Vector2dBound(6, 6, 10, 10), 10, 0, null, map);
-//        // (5, 6) left
-//
-//        Animal b31 = new Animal(new Vector2dBound(8, 0, 10, 10), 10, 0, null, map);
-//        Animal b32 = new Animal(new Vector2dBound(9, 0, 10, 10), 10, 0, null, map);
-//        Animal b33 = new Animal(new Vector2dBound(0, 0, 10, 10), 10, 0, null, map);
-//        Animal b34 = new Animal(new Vector2dBound(8, 1, 10, 10), 10, 0, null, map);
-//        Animal b35 = new Animal(new Vector2dBound(0, 1, 10, 10), 10, 0, null, map);
-//        Animal b36 = new Animal(new Vector2dBound(8, 2, 10, 10), 10, 0, null, map);
-//        Animal b37 = new Animal(new Vector2dBound(9, 2, 10, 10), 10, 0, null, map);
-//        // (0, 2) left
-//
-//        LinkedList<Animal> activeAnimals = new LinkedList<>(Arrays.asList(animal11, animal12, animal13, animal14,
-//                animal21, animal22, animal23, animal31, animal32, animal33));
-//        LinkedList<Animal> boundsAnimals = new LinkedList<>(Arrays.asList(b11, b12, b13, b14, b15, b16, b17,
-//                b21, b22, b23, b24, b25, b26, b27, b31, b32, b33, b34, b35, b36, b37));
-//
-//        for (Animal anim : activeAnimals) map.place(anim);
-//        for (Animal anim: boundsAnimals) map.place(anim);
-//
-//        Vector2dBound vec1t = new Vector2dBound(3, 3, 10, 10);
-//        Vector2dBound vec2t = new Vector2dBound(5, 6, 10, 10);
-//        Vector2dBound vec3t = new Vector2dBound(0, 2, 10, 10);
-//
-//        assertTrue(map.getCell(vec1t).isEmpty());
-//        assertTrue(map.getCell(vec2t).isEmpty());
-//        assertTrue(map.getCell(vec3t).isEmpty());
-//
-//        map.bringTogether();
-//
-//
-//    }
+    @Test
+    void bringTogetherTest() {
+        JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map = new JungleMap<>(10, 10, 4, 4);
+        Vector2dBound vec1 = new Vector2dBound(2, 3, 10, 10);
+        Vector2dBound vec2 = new Vector2dBound(5, 5, 10, 10);
+        Vector2dBound vec3 = new Vector2dBound(9, 1, 10, 10);
+
+        Plant plant = new Plant(vec1, 0);
+
+        Animal animal11 = new Animal(vec1, 30, 0, genotype, map);
+        animal11.eat(plant, -17);
+        Animal animal12 = new Animal(vec1, 30, 0, genotype, map);
+        Animal animal13 = new Animal(vec1, 13, 0, genotype, map);
+        Animal animal14 = new Animal(vec1, 4, 0, genotype, map);
+
+        Animal animal21 = new Animal(vec2, 10, 0, genotype, map);
+        Animal animal22 = new Animal(vec2, 15, 0, genotype, map);
+        Animal animal23 = new Animal(vec2, 4, 0, genotype, map);
+
+        Animal animal31 = new Animal(vec3, 10, 0, genotype, map);
+        Animal animal32 = new Animal(vec3, 10, 0, genotype, map);
+        Animal animal33 = new Animal(vec3, 4, 0, genotype, map);
+
+        Animal b11 = new Animal(new Vector2dBound(2, 2, 10, 10), 10, 0, null, map);
+        Animal b12 = new Animal(new Vector2dBound(2, 4, 10, 10), 10, 0, null, map);
+        Animal b13 = new Animal(new Vector2dBound(1, 2, 10, 10), 10, 0, null, map);
+        Animal b14 = new Animal(new Vector2dBound(1, 3, 10, 10), 10, 0, null, map);
+        Animal b15 = new Animal(new Vector2dBound(1, 4, 10, 10), 10, 0, null, map);
+        Animal b16 = new Animal(new Vector2dBound(3, 2, 10, 10), 10, 0, null, map);
+        Animal b17 = new Animal(new Vector2dBound(3, 4, 10, 10), 10, 0, null, map);
+        // (3, 3) left
+
+        Animal b21 = new Animal(new Vector2dBound(4, 4, 10, 10), 10, 0, null, map);
+        Animal b22 = new Animal(new Vector2dBound(5, 4, 10, 10), 10, 0, null, map);
+        Animal b23 = new Animal(new Vector2dBound(6, 4, 10, 10), 10, 0, null, map);
+        Animal b24 = new Animal(new Vector2dBound(4, 5, 10, 10), 10, 0, null, map);
+        Animal b25 = new Animal(new Vector2dBound(6, 5, 10, 10), 10, 0, null, map);
+        Animal b26 = new Animal(new Vector2dBound(4, 6, 10, 10), 10, 0, null, map);
+        Animal b27 = new Animal(new Vector2dBound(6, 6, 10, 10), 10, 0, null, map);
+        // (5, 6) left
+
+        Animal b31 = new Animal(new Vector2dBound(8, 0, 10, 10), 10, 0, null, map);
+        Animal b32 = new Animal(new Vector2dBound(9, 0, 10, 10), 10, 0, null, map);
+        Animal b33 = new Animal(new Vector2dBound(0, 0, 10, 10), 10, 0, null, map);
+        Animal b34 = new Animal(new Vector2dBound(8, 1, 10, 10), 10, 0, null, map);
+        Animal b35 = new Animal(new Vector2dBound(0, 1, 10, 10), 10, 0, null, map);
+        Animal b36 = new Animal(new Vector2dBound(8, 2, 10, 10), 10, 0, null, map);
+        Animal b37 = new Animal(new Vector2dBound(9, 2, 10, 10), 10, 0, null, map);
+        // (0, 2) left
+
+        LinkedList<Animal> activeAnimals = new LinkedList<>(Arrays.asList(animal11, animal12, animal13, animal14,
+                animal21, animal22, animal23, animal31, animal32, animal33));
+        LinkedList<Animal> boundsAnimals = new LinkedList<>(Arrays.asList(b11, b12, b13, b14, b15, b16, b17,
+                b21, b22, b23, b24, b25, b26, b27, b31, b32, b33, b34, b35, b36, b37));
+
+        for (Animal anim : activeAnimals) map.place(anim);
+        for (Animal anim: boundsAnimals) map.place(anim);
+
+        Vector2dBound vec1t = new Vector2dBound(3, 3, 10, 10);
+        Vector2dBound vec2t = new Vector2dBound(5, 6, 10, 10);
+        Vector2dBound vec3t = new Vector2dBound(0, 2, 10, 10);
+
+        assertTrue(map.getCell(vec1t).isEmpty());
+        assertTrue(map.getCell(vec2t).isEmpty());
+        assertTrue(map.getCell(vec3t).isEmpty());
+
+        map.bringTogether();
+
+        assertTrue(map.containsCellAt(vec1t));
+        assertTrue(map.containsCellAt(vec2t));
+        assertTrue(map.containsCellAt(vec3t));
+
+        JungleMapCell cell1t = map.getCell(vec1t).get();
+        JungleMapCell cell2t = map.getCell(vec2t).get();
+        JungleMapCell cell3t = map.getCell(vec3t).get();
+
+        assertEquals(cell1t.movableElementsCount(), 1);
+        assertEquals(cell2t.movableElementsCount(), 1);
+        assertEquals(cell3t.movableElementsCount(), 1);
+
+        Animal child1 = (Animal) cell1t.getMaxEnergyElement();
+        Animal child2 = (Animal) cell2t.getMaxEnergyElement();
+        Animal child3 = (Animal) cell3t.getMaxEnergyElement();
+
+        assertEquals(child1.getEnergy(), 10);
+        assertEquals(child2.getEnergy(), 5);
+        assertEquals(child3.getEnergy(), 4);
+
+        assertEquals(animal11.getEnergy(), 13);
+        assertEquals(animal12.getEnergy(), 23);
+        assertEquals(animal13.getEnergy(), 10);
+        assertEquals(animal14.getEnergy(), 4);
+
+        assertEquals(animal21.getEnergy(), 8);
+        assertEquals(animal22.getEnergy(), 12);
+        assertEquals(animal23.getEnergy(), 4);
+
+        assertEquals(animal31.getEnergy(), 8);
+        assertEquals(animal32.getEnergy(), 8);
+        assertEquals(animal33.getEnergy(), 4);
+    }
 
     @Test
     void energyReductionByMovesTest() {
+        JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map = new JungleMap<>(10, 10, 4, 4);
+        Animal animal = new Animal(new Vector2dBound(4, 4, 10, 10), 160, 44, genotype, map);
 
+        map.place(animal);
+
+        animal.rotate();
+        animal.move();
+
+        assertEquals(animal.getEnergy(), 116);
+
+        animal.move();
+
+        assertEquals(animal.getEnergy(), 72);
+
+        animal.rotate();
+        animal.move();
+
+        assertEquals(animal.getEnergy(), 28);
+
+        animal.rotate();
+
+        assertEquals(animal.getEnergy(), 28);
+
+        animal.move();
+
+        assertEquals(animal.getEnergy(), -16);
     }
 }
