@@ -11,10 +11,7 @@ import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.utils.MapOrientation;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E extends AbstractJungleMapNonMovableElement,
         EM extends AbstractJungleMapMovableElement>
@@ -96,7 +93,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
                 int energyPerEl = plant.getEnergy() / count;
                 int energyLeftover = plant.getEnergy() % count;
                 for (EM el : elements) {
-                    el.eat(plant, energyLeftover > 0 ? energyPerEl + 1 : energyLeftover);
+                    el.eat(plant, energyLeftover > 0 ? energyPerEl + 1 : energyPerEl);
                     energyLeftover--;
                 }
             }
@@ -104,7 +101,8 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
     }
 
     public void bringTogether() {
-        for (T cell : cells.values()) {
+        Collection<T> cellsCopy = ((HashMap) cells.clone()).values();
+        for (T cell : cellsCopy) {
             if (cell.movableElementsCount() >= 2) {
                 Optional<Map.Entry<EM, EM>> optPair = cell.getBreedPair();
                 if (optPair.isEmpty()) continue;
