@@ -30,3 +30,5 @@ javafx {
     version = "15.0.1"
     modules = [ 'javafx.controls' ]
 }
+
+mainClassName = 'pl.edu.agh.cs.app.ui.View'
