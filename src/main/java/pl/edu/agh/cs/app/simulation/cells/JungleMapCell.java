@@ -6,6 +6,7 @@ import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapEleme
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
 import pl.edu.agh.cs.app.simulation.observers.IEatObserver;
+import pl.edu.agh.cs.app.simulation.observers.IEnergyChangeObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 
 import java.util.*;
@@ -15,7 +16,7 @@ import java.util.AbstractMap.SimpleEntry;
 public class JungleMapCell<IE extends IJungleMapElement,
         E extends AbstractJungleMapNonMovableElement, EM extends AbstractJungleMapMovableElement>
         extends MirrorMapCell<IE, E, EM>
-        implements IEatObserver<EM, E>, IStarveObserver<EM>, IBreedObserver<EM> {
+        implements IEatObserver<EM, E>, IStarveObserver<EM>, IBreedObserver<EM>, IEnergyChangeObserver<EM> {
     protected TreeMap<Integer, HashSet<EM>> energyTree;
 
     public JungleMapCell(IVector2d initialPosition) {
@@ -123,5 +124,18 @@ public class JungleMapCell<IE extends IJungleMapElement,
     @Override
     public void starved(EM starvedElement, IVector2d position) {
         removeElement((IE) starvedElement);
+    }
+
+    @Override
+    public void energyChanged(EM element, int energyBefore, int energyAfter) {
+//        cell.removeElement(this);
+//                energy -= moveEnergyCost;
+//                cell.addElement(this);
+        energyTree.get(energyBefore).remove(element);
+        removeNodeIfNeeded(energyBefore);
+        if (!energyTree.containsKey(energyAfter)) {
+            energyTree.put(energyAfter, new HashSet<>());
+        }
+        energyTree.get(energyAfter).add(element);
     }
 }

@@ -70,6 +70,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
                 movableElement.addEatObserver(cell);
                 movableElement.addStarveObserver(cell);
                 movableElement.addStarveObserver(this);
+                movableElement.addEnergyChangeObserver(cell);
             }
             if (wasEmptyCell) {
                 if (isJungle(element.getPosition())) {
@@ -156,6 +157,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         movedElement.removeBreedObserver(cell);
         movedElement.removeEatObserver(cell);
         movedElement.removeStarveObserver(cell);
+        movedElement.removeEnergyChangeObserver(cell);
         super.moved(movedElement, oldPosition, newPosition);
         if (!cells.containsKey(oldPosition)) {
             if (isJungle(oldPosition)) {

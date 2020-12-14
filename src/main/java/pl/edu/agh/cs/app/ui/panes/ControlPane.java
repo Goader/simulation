@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
+import pl.edu.agh.cs.app.simulation.utils.SimulationStatus;
 
 public class ControlPane extends HBox {
     protected SimulationStatus status;

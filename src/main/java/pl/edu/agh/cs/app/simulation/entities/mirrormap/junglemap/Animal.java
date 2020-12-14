@@ -4,13 +4,24 @@ import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.maps.JungleMap;
+import pl.edu.agh.cs.app.ui.elements.AnimalView;
 
 public class Animal extends AbstractJungleMapMovableElement {
     protected JungleMap map;
+    protected AnimalView view;
 
     public Animal(Vector2dBound initialPosition, int startEnergy, int moveEnergyCost, Genotype genotype, JungleMap map) {
         super(initialPosition, startEnergy, moveEnergyCost, genotype);
         this.map = map;
+        this.view = new AnimalView(this);
+    }
+
+    public AnimalView getView() {
+        return view;
+    }
+
+    public int getMoveEnergyCost() {
+        return moveEnergyCost;
     }
 
     @Override
@@ -58,11 +69,9 @@ public class Animal extends AbstractJungleMapMovableElement {
                 position = newPosition;
                 notifyMoveObservers(oldPosition, newPosition);
 
-                // handling energy change
-                JungleMapCell cell = (JungleMapCell) map.getCell(position).get();
-                cell.removeElement(this);
+                int energyBefore = energy;
                 energy -= moveEnergyCost;
-                cell.addElement(this);
+                notifyEnergyChangeObservers(energyBefore, energy);
             }
         }
     }
