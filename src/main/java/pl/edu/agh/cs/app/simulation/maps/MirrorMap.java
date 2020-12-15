@@ -45,11 +45,11 @@ public class MirrorMap
     public void moved(EM movedElement, IVector2d oldPosition, IVector2d newPosition) {
         movedElement.removeMoveObserver(cells.get(oldPosition));  // we are sure it still exists
         place((IE) movedElement);  // creates MapCell at the newPosition if there is null
-        // movedElement.addMoveObserver(cells.get(newPosition));  // we are sure it is created
+
         MirrorMapCell cell = getCell(oldPosition).get();
         // If there is no elements in cell or there is left only movedElement, but the cell hasn't deleted it yet,
         // then we just remove the cell from the HashMap, because after notifying all the observers it will be empty
-        if (cell.isEmpty() ||
+        if (cell.isEmpty() ||  // if cell contains only movedElement, then it should be deleted, map got informed before cell
                 (cell.nonMovableElementsCount() == 0 && cell.movableElementsCount() == 1
                         && cell.containsElement(movedElement))) {
             cells.remove(oldPosition);

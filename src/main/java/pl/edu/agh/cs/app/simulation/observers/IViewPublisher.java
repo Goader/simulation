@@ -7,7 +7,7 @@ public interface IViewPublisher {
      * @param observer
      *            Object of the class which implements IDaySwitchObserver interface.
      */
-    void addDaySwitchObserver(IViewObserver observer);
+    void addViewObserver(IViewObserver observer);
 
     /**
      * Removes an observer object from the collection, so it is no longer notified of any changes.
@@ -15,5 +15,5 @@ public interface IViewPublisher {
      * @param observer
      *            Object of the class which implements IDaySwitchObserver interface.
      */
-    void removeDaySwitchObserver(IViewObserver observer);
+    void removeViewObserver(IViewObserver observer);
 }

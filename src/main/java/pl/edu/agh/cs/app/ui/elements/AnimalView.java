@@ -42,10 +42,11 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
             System.exit(-54);  // couldn't find a better way to handle it
             // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
         }
-        criticalEnergyIcon = new Image(critical);
-        lowEnergyIcon = new Image(low);
-        mediumEnergyIcon = new Image(medium);
-        highEnergyIcon = new Image(high);
+        // needs change, we wanna know width and height from arguments
+        criticalEnergyIcon = new Image(critical, 24, 24, true, true);
+        lowEnergyIcon = new Image(low, 24, 24, true, true);
+        mediumEnergyIcon = new Image(medium, 24, 24, true, true);
+        highEnergyIcon = new Image(high, 24, 24, true, true);
 
         this.animal = animal;
         this.lastEnergy = animal.getEnergy();

@@ -11,7 +11,7 @@ import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Plant;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.file.NoSuchFileException;
+import java.util.Optional;
 
 public class MapCellView extends StackPane {
     protected ImageView background;
@@ -39,17 +39,21 @@ public class MapCellView extends StackPane {
         this.getChildren().add(background);
     }
 
-    public void updated(JungleMapCell<IJungleMapElement, Plant, Animal> cell) {
+    public void updated(Optional<JungleMapCell<IJungleMapElement, Plant, Animal>> optCell) {
         this.getChildren().clear();
         this.getChildren().add(background);
 
-        if (cell.hasNonMovableElements()) {
-            Plant plant = cell.getNonMovableElements().getFirst();
-            this.getChildren().add(plant.getView());
-        }
-        if (cell.hasMovableElements()) {
-            Animal animal = cell.getMaxEnergyElement();
-            this.getChildren().add(animal.getView());
+        if (optCell.isPresent()) {
+            JungleMapCell<IJungleMapElement, Plant, Animal> cell = optCell.get();
+            if (cell.hasNonMovableElements()) {
+                Plant plant = cell.getNonMovableElements().getFirst();
+                this.getChildren().add(plant.getView());
+            }
+            if (cell.hasMovableElements()) {
+                Animal animal = cell.getMaxEnergyElement();
+                animal.getView().update();
+                this.getChildren().add(animal.getView());
+            }
         }
     }
 }

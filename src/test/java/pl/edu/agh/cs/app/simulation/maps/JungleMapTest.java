@@ -644,4 +644,64 @@ class JungleMapTest {
 
         assertEquals(animal.getEnergy(), -16);
     }
+
+    @Test
+    void childMovingTest() {
+        JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> map = new JungleMap<>(10, 10, 4, 4);
+        Vector2dBound vec = new Vector2dBound(2, 3, 10, 10);
+        Animal animal11 = new Animal(vec, 30, 0, genotype, map);
+        Animal animal12 = new Animal(vec, 30, 0, genotype, map);
+
+        Animal b11 = new Animal(new Vector2dBound(2, 2, 10, 10), 10, 0, null, map);
+        Animal b12 = new Animal(new Vector2dBound(2, 4, 10, 10), 10, 0, null, map);
+        Animal b13 = new Animal(new Vector2dBound(1, 2, 10, 10), 10, 0, null, map);
+        Animal b14 = new Animal(new Vector2dBound(1, 3, 10, 10), 10, 0, null, map);
+        Animal b15 = new Animal(new Vector2dBound(1, 4, 10, 10), 10, 0, null, map);
+        Animal b16 = new Animal(new Vector2dBound(3, 2, 10, 10), 10, 0, null, map);
+        Animal b17 = new Animal(new Vector2dBound(3, 4, 10, 10), 10, 0, null, map);
+        // (3, 3) left
+
+        LinkedList<Animal> boundsAnimals = new LinkedList<>(Arrays.asList(b11, b12, b13, b14, b15, b16, b17));
+        for (Animal anim: boundsAnimals) map.place(anim);
+
+        map.place(animal11);
+        map.place(animal12);
+
+        map.bringTogether();
+
+        Vector2dBound vector = new Vector2dBound(3, 3, 10, 10);
+
+        Plant plant = new Plant(vector, 100);
+
+        assertTrue(map.getCell(vector).isPresent());
+        assertEquals(map.getCell(vector).get().movableElementsCount(), 1);
+        assertEquals(map.getCell(vector).get().getMaxEnergyElement().getEnergy(), 14);
+
+        Animal child = map.getCell(vector).get().getMaxEnergyElement();
+        child.eat(plant, plant.getEnergy());
+
+        child.rotate();
+
+        MapOrientation orient = child.getOrientation();
+
+        child.move();
+
+        Vector2dBound newPosition = vector.add(orient.toUnitVector());
+
+        assertEquals(child.getPosition(), newPosition);
+        assertTrue(map.getCell(newPosition).isPresent());
+        assertEquals(map.getCell(newPosition).get().getMaxEnergyElement(), child);
+
+        child.move();
+        child.move();
+        child.move();
+        child.move();
+
+        Vector2dEucl inc = orient.toUnitVector();
+        newPosition = newPosition.add(inc).add(inc).add(inc).add(inc);
+
+        assertEquals(child.getPosition(), newPosition);
+        assertTrue(map.getCell(newPosition).isPresent());
+        assertEquals(map.getCell(newPosition).get().getMaxEnergyElement(), child);
+    }
 }

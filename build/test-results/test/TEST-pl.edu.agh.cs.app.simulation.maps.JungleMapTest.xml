@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-12-14T19:07:46" hostname="NH5-NH7" time="0.586">
+<testsuite name="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-12-15T11:18:54" hostname="NH5-NH7" time="0.477">
   <properties/>
-  <testcase name="eatTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.29"/>
-  <testcase name="starveTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.014"/>
-  <testcase name="emptyCellsTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.019"/>
-  <testcase name="energyReductionByMovesTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.005"/>
-  <testcase name="feedTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.055"/>
-  <testcase name="breedPairTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.013"/>
-  <testcase name="freeNeighbourCellTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.037"/>
-  <testcase name="movedTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.009"/>
-  <testcase name="bringTogetherTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.129"/>
-  <testcase name="placeTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.009"/>
+  <testcase name="childMovingTest()" classname="pl.edu.agh.cs.app.simulation.maps.JungleMapTest" time="0.477"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

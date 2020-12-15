@@ -10,6 +10,7 @@ import pl.edu.agh.cs.app.ui.panes.SimulationViewPane;
 public class View extends Application {
 
     private Stage window;
+    private Simulation simulation1;
 
     public static void main(String[] args) {
         launch(args);
@@ -20,14 +21,35 @@ public class View extends Application {
         window = primaryStage;
         window.setTitle("Simulation");
 
-        Simulation simulation1 = new Simulation();
+        simulation1 = new Simulation();
         SimulationViewPane pane = new SimulationViewPane(simulation1);
-        Thread t1 = new Thread(simulation1);
-        t1.start();
-        //Platform.runLater(simulation1);
+        Thread thread = new Thread(() -> {
+            Runnable runnable = this::updateSimulations;
+            while (true) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    simulation1.getStatus().setStopped(true);
+                }
+                if (simulation1.getStatus().isRunning()) {
+                    Platform.runLater(runnable);
+                }
+                // how to make it work?
+                if (simulation1.getStatus().isStopped()) {
+                    break;
+                }
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+
 
         Scene scene = new Scene(pane, 960, 540);
         window.setScene(scene);
         window.show();
+    }
+
+    protected void updateSimulations() {
+        simulation1.nextDay();
     }
 }

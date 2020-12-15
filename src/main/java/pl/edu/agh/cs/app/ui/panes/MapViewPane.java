@@ -18,7 +18,7 @@ public class MapViewPane extends GridPane implements IViewObserver, ISeedObserve
     protected final int width;
     protected final int height;
     protected final int cellSidePixels;
-    protected final JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map;
+    protected final JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> map;
     protected MapCellView[][] cellViews;
 
     public MapViewPane(int width, int height, JungleMap map, int cellSidePixels) {
@@ -39,9 +39,7 @@ public class MapViewPane extends GridPane implements IViewObserver, ISeedObserve
 
     protected void updateCell(IVector2d position) {
         if (0 <= position.getX() && position.getX() < width && 0 <= position.getY() && position.getY() < height) {
-            if (map.getCell(position).isPresent()) {
-                cellViews[position.getX()][position.getY()].updated(map.getCell(position).get());
-            }
+            cellViews[position.getX()][position.getY()].updated(map.getCell(position));
         }
     }
 
