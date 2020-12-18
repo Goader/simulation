@@ -44,7 +44,7 @@ public class View extends Application {
         thread.start();
 
 
-        Scene scene = new Scene(pane, 960, 540);
+        Scene scene = new Scene(pane, 1920, 1080);
         window.setScene(scene);
         window.show();
     }

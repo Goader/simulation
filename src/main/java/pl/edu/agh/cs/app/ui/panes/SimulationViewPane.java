@@ -27,7 +27,7 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
 
         this.setBottom(new ControlPane(status));
         // change magic size numbers
-        this.mapView = new MapViewPane(20, 20, simulation.getMap(), 24);
+        this.mapView = new MapViewPane(20, 20, simulation.getMap(), 48);
         this.statisticsView = new StatisticsViewPane();
 
         this.setCenter(new HBox(20, statisticsView, mapView));
