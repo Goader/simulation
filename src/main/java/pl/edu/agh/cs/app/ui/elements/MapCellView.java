@@ -15,12 +15,11 @@ import java.util.Optional;
 
 public class MapCellView extends StackPane {
     protected ImageView background;
+    protected final int sideSize;
 
 
-    public MapCellView(int width, int height, boolean isJungle) {
-        if (width != height) {
-            throw new IllegalArgumentException("Width and height must be the same, because MapCellView is a square");
-        }
+    public MapCellView(int sideSize, boolean isJungle) {
+        this.sideSize = sideSize;
         InputStream back = InputStream.nullInputStream();
         try {
             if (isJungle) {
@@ -33,7 +32,7 @@ public class MapCellView extends StackPane {
             // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
         }
         
-        Image im = new Image(back, width, height, true, true);
+        Image im = new Image(back, sideSize, sideSize, true, true);
         background = new ImageView(im);
 
         this.getChildren().add(background);
@@ -47,10 +46,16 @@ public class MapCellView extends StackPane {
             JungleMapCell<IJungleMapElement, Plant, Animal> cell = optCell.get();
             if (cell.hasNonMovableElements()) {
                 Plant plant = cell.getNonMovableElements().getFirst();
+                if (plant.getView().getImageSideSize() != sideSize) {
+                    plant.getView().setImageSideSize(sideSize);
+                }
                 this.getChildren().add(plant.getView());
             }
             if (cell.hasMovableElements()) {
                 Animal animal = cell.getMaxEnergyElement();
+                if (animal.getView().getImageSideSize() != sideSize) {
+                    animal.getView().setImageSideSize(sideSize);
+                }
                 animal.getView().update();
                 this.getChildren().add(animal.getView());
             }

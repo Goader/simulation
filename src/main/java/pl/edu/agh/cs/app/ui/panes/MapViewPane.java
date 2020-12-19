@@ -31,7 +31,7 @@ public class MapViewPane extends GridPane implements IViewObserver, ISeedObserve
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                cellViews[i][j] = new MapCellView(this.cellSidePixels, this.cellSidePixels, map.isJungle(new Vector2dEucl(i, j)));
+                cellViews[i][j] = new MapCellView(this.cellSidePixels, map.isJungle(new Vector2dEucl(i, j)));
                 this.add(cellViews[i][j], i, height - 1 - j);
             }
         }

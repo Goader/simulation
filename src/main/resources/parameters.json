@@ -16,5 +16,23 @@
     "moveEnergy": 10,
     "plantEnergy": 150,
     "animalCount": 6
+  },
+  {
+    "width": 10,
+    "height": 10,
+    "jungleRatio": 0.6,
+    "startEnergy": 100,
+    "moveEnergy": 10,
+    "plantEnergy": 70,
+    "animalCount": 6
+  },
+  {
+    "width": 60,
+    "height": 40,
+    "jungleRatio": 0.6,
+    "startEnergy": 500,
+    "moveEnergy": 10,
+    "plantEnergy": 350,
+    "animalCount": 6
   }
 ]

@@ -55,4 +55,12 @@ public class MirrorMap
             cells.remove(oldPosition);
         }
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }

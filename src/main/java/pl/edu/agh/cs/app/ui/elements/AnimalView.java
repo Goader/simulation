@@ -17,22 +17,24 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class AnimalView extends ImageView implements IEnergyChangeObserver<Animal>, IEatObserver<Animal, Plant>, IBreedObserver<Animal> {
-    // wanted to make them static, but there appears problem with initializing
-    protected final Image criticalEnergyIcon;
-    protected final Image lowEnergyIcon;
-    protected final Image mediumEnergyIcon;
-    protected final Image highEnergyIcon;
+    protected InputStream critical = InputStream.nullInputStream();
+    protected InputStream low = InputStream.nullInputStream();
+    protected InputStream medium = InputStream.nullInputStream();
+    protected InputStream high = InputStream.nullInputStream();
+
+    protected Image criticalEnergyIcon;
+    protected Image lowEnergyIcon;
+    protected Image mediumEnergyIcon;
+    protected Image highEnergyIcon;
 
     protected final Animal animal;
 
     protected int lastEnergy;
 
+    protected int imageSideSize = 20;
+
     public AnimalView(Animal animal) {
         super();
-        InputStream critical = InputStream.nullInputStream();
-        InputStream low = InputStream.nullInputStream();
-        InputStream medium = InputStream.nullInputStream();
-        InputStream high = InputStream.nullInputStream();
         try {
             critical = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_critical.png");
             low = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_low.png");
@@ -43,18 +45,17 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
             // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
         }
         // needs change, we wanna know width and height from arguments
-        int iconwidth = 23;
-        criticalEnergyIcon = new Image(critical, iconwidth, iconwidth, true, true);
-        lowEnergyIcon = new Image(low, iconwidth, iconwidth, true, true);
-        mediumEnergyIcon = new Image(medium, iconwidth, iconwidth, true, true);
-        highEnergyIcon = new Image(high, iconwidth, iconwidth, true, true);
+        criticalEnergyIcon = new Image(critical, imageSideSize, imageSideSize, true, true);
+        lowEnergyIcon = new Image(low, imageSideSize, imageSideSize, true, true);
+        mediumEnergyIcon = new Image(medium, imageSideSize, imageSideSize, true, true);
+        highEnergyIcon = new Image(high, imageSideSize, imageSideSize, true, true);
 
         this.animal = animal;
         this.lastEnergy = animal.getEnergy();
         this.setImage(getImage(animal));
     }
 
-    public Image getImage(Animal animal) {
+    protected Image getImage(Animal animal) {
         int energy = animal.getEnergy();
         int moveCost = animal.getMoveEnergyCost();
 
@@ -70,12 +71,41 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
         return highEnergyIcon;
     }
 
+    public int getImageSideSize() {
+        return imageSideSize;
+    }
+
+    public void setImageSideSize(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be a positive integer");
+        }
+        imageSideSize = size;
+
+        try {
+            critical = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_critical.png");
+            low = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_low.png");
+            medium = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_med.png");
+            high = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_high.png");
+        } catch (FileNotFoundException ex) {
+            System.exit(-54);  // couldn't find a better way to handle it
+            // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
+        }
+        criticalEnergyIcon = new Image(critical, size, size, true, true);
+        lowEnergyIcon = new Image(low, size, size, true, true);
+        mediumEnergyIcon = new Image(medium, size, size, true, true);
+        highEnergyIcon = new Image(high, size, size, true, true);
+
+        this.lastEnergy = animal.getEnergy();
+        this.setImage(getImage(animal));
+    }
+
     public void update() {
         this.setImage(getImage(this.animal));
     }
 
     @Override
     public void bred(Animal firstElement, Animal secondElement, Animal newElement, int firstEnergyBefore, int secondEnergyBefore, IVector2d position) {
+        newElement.getView().setImageSideSize(imageSideSize);
         update();
     }
 

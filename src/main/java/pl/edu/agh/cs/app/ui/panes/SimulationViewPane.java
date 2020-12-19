@@ -20,18 +20,37 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
     protected StatisticsViewPane statisticsView;
     protected MapViewPane mapView;
 
-    public SimulationViewPane(Simulation simulation) {
+    public SimulationViewPane(Simulation simulation, int pxWidth, int pxHeight) {
         super();
         this.simulation = simulation;
         status = simulation.getStatus();
 
-        this.setBottom(new ControlPane(status));
-        // change magic size numbers
-        this.mapView = new MapViewPane(20, 20, simulation.getMap(), 23);
-        this.statisticsView = new StatisticsViewPane();
+        ControlPane controls = new ControlPane(status);
+        this.setBottom(controls);
 
-        this.setCenter(new HBox(20, statisticsView, mapView));
-        this.setPadding(new Insets(10, 10, 10, 10));
+        int padding = 10;
+        int centerSpacing = 20;
+        int controlsHeight = 40;
+
+        controls.setMaxHeight(controlsHeight);
+
+        int pxCenterHeight = (int) (pxHeight - controls.getHeight()) - 2 * padding - controlsHeight;
+
+        int maxMapHeightPx = pxCenterHeight;
+        int maxMapWidthPx = (int) (0.7 * pxWidth);
+
+        int mapWidth = simulation.getMap().getWidth();
+        int mapHeight = simulation.getMap().getHeight();
+
+        // configuring cellSide so that map fits the bounds being expanded to the max on the height or width
+        int cellSide = maxMapHeightPx / mapHeight;
+        if (cellSide * mapWidth > maxMapWidthPx) cellSide = maxMapWidthPx / mapWidth;
+
+        this.mapView = new MapViewPane(mapWidth, mapHeight, simulation.getMap(), cellSide);
+        this.statisticsView = new StatisticsViewPane(pxWidth - cellSide * mapWidth - centerSpacing, pxCenterHeight);
+
+        this.setCenter(new HBox(centerSpacing, statisticsView, mapView));
+        this.setPadding(new Insets(padding, padding, padding, padding));
 
         simulation.getSeeder().addSeedObserver(mapView);
 
