@@ -7,12 +7,8 @@ import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
-import pl.edu.agh.cs.app.simulation.observers.IBreedPublisher;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
-import pl.edu.agh.cs.app.simulation.utils.SimulationStatus;
-import pl.edu.agh.cs.app.ui.elements.MapCellView;
-
-import java.util.HashSet;
+import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 public class SimulationViewPane extends BorderPane implements IBreedObserver<Animal>, IStarveObserver<Animal> {
     protected Simulation simulation;
@@ -35,6 +31,7 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
         controls.setMaxHeight(controlsHeight);
 
         int pxCenterHeight = (int) (pxHeight - controls.getHeight()) - 2 * padding - controlsHeight;
+        int pxCenterWidth = pxWidth - 2 * padding;
 
         int maxMapHeightPx = pxCenterHeight;
         int maxMapWidthPx = (int) (0.7 * pxWidth);
@@ -47,7 +44,9 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
         if (cellSide * mapWidth > maxMapWidthPx) cellSide = maxMapWidthPx / mapWidth;
 
         this.mapView = new MapViewPane(mapWidth, mapHeight, simulation.getMap(), cellSide);
-        this.statisticsView = new StatisticsViewPane(pxWidth - cellSide * mapWidth - centerSpacing, pxCenterHeight);
+        this.statisticsView = new StatisticsViewPane(pxCenterWidth - cellSide * mapWidth - centerSpacing,
+                                                           pxCenterHeight,
+                                                           simulation.getStatistics());
 
         this.setCenter(new HBox(centerSpacing, statisticsView, mapView));
         this.setPadding(new Insets(padding, padding, padding, padding));

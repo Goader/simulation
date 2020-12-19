@@ -16,8 +16,8 @@ public class Genotype {
      */
 
     private final ArrayList<Integer> genesCounter;
-    private static final int GENES_COUNT = 32;
-    private static final int GENE_TYPES = 8;
+    public static final int GENES_COUNT = 32;
+    public static final int GENE_TYPES = 8;
 
     private static void validateCounter(List<Integer> genesCounter) {
         if (genesCounter.size() != GENE_TYPES) {
@@ -104,6 +104,10 @@ public class Genotype {
         validateCounter(childCounter);
 
         return new Genotype(childCounter);
+    }
+
+    public ArrayList<Integer> getGenesCounter() {
+        return (ArrayList<Integer>) genesCounter.clone();
     }
 
     public int getRandomRotation() {

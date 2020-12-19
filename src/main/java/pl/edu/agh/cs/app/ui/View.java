@@ -5,14 +5,12 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.ui.panes.SimulationViewPane;
 import pl.edu.agh.cs.app.ui.utils.JSONSimParser;
-import pl.edu.agh.cs.app.ui.utils.SimulationConfiguration;
+import pl.edu.agh.cs.app.simulation.utils.SimulationConfiguration;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class View extends Application {

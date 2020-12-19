@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.app.simulation.utils;
+package pl.edu.agh.cs.app.ui.utils;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.IntegerProperty;

@@ -1,4 +1,4 @@
-package pl.edu.agh.cs.app.ui.utils;
+package pl.edu.agh.cs.app.simulation.utils;
 
 public class SimulationConfiguration {
     protected final int width;

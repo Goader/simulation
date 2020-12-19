@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import pl.edu.agh.cs.app.simulation.utils.SimulationConfiguration;
 
 public class JSONSimParser {
     public static ArrayList<SimulationConfiguration> parse() {

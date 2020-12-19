@@ -1,25 +1,21 @@
 package pl.edu.agh.cs.app.simulation;
 
-import javafx.concurrent.Task;
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Plant;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
-import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
-import pl.edu.agh.cs.app.simulation.geometry.Vector2dEucl;
 import pl.edu.agh.cs.app.simulation.maps.JungleMap;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
+import pl.edu.agh.cs.app.simulation.statistics.PopulationStatistics;
 import pl.edu.agh.cs.app.simulation.utils.PlantSeeder;
-import pl.edu.agh.cs.app.simulation.utils.SimulationStatus;
-import pl.edu.agh.cs.app.ui.utils.SimulationConfiguration;
+import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
+import pl.edu.agh.cs.app.simulation.utils.SimulationConfiguration;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Animal> {
     protected final JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map;
@@ -27,6 +23,7 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
     protected final HashSet<Animal> animals;
     protected final PlantSeeder seeder;
     protected final SimulationConfiguration config;
+    protected final PopulationStatistics statistics;
 
     public Simulation(SimulationConfiguration config) {
         this.config = config;
@@ -34,6 +31,8 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
         status = new SimulationStatus();
         seeder = new PlantSeeder(map);
         animals = new HashSet<>();
+        statistics = new PopulationStatistics(this, status);
+        seeder.addSeedObserver(statistics);
 
         if (config.getAnimalCount() > config.getHeight() * config.getWidth()) {
             throw new IllegalArgumentException("Initial animals count cannot be bigger than map area");
@@ -49,7 +48,22 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
             map.place(animal);
             animal.addBreedObserver(this);
             animal.addStarveObserver(this);
+
+            animal.addEnergyChangeObserver(statistics);
+            animal.addEatObserver(statistics);
+            animal.addBreedObserver(statistics);
+            animal.addStarveObserver(statistics);
         }
+
+        statistics.initialiseGenotypes(new ArrayList<>(animals));
+    }
+
+    public SimulationConfiguration getConfig() {
+        return config;
+    }
+
+    public PopulationStatistics getStatistics() {
+        return statistics;
     }
 
     public JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> getMap() {

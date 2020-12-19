@@ -6,7 +6,7 @@
     "startEnergy": 250,
     "moveEnergy": 10,
     "plantEnergy": 100,
-    "animalCount": 6
+    "animalCount": 15
   },
   {
     "width": 20,
@@ -15,7 +15,7 @@
     "startEnergy": 200,
     "moveEnergy": 10,
     "plantEnergy": 150,
-    "animalCount": 6
+    "animalCount": 15
   },
   {
     "width": 10,
@@ -33,6 +33,6 @@
     "startEnergy": 500,
     "moveEnergy": 10,
     "plantEnergy": 350,
-    "animalCount": 6
+    "animalCount": 30
   }
 ]
