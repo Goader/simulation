@@ -110,4 +110,17 @@ public class Genotype {
         ArrayList<Integer> genesList = genesCounterToList(genesCounter);
         return genesList.get((int) (Math.random() * genesList.size()));
     }
+
+    public static Genotype generateRandomGenotype() {
+        ArrayList<Integer> genesCounter = new ArrayList<>();
+        for (int i = 0; i < GENE_TYPES; i++) {
+            genesCounter.add(1);
+        }
+
+        for (int i = GENE_TYPES; i < GENES_COUNT; i++) {
+            int idx = (int) (Math.random() * GENE_TYPES);
+            genesCounter.set(idx, genesCounter.get(idx) + 1);
+        }
+        return new Genotype(genesCounter);
+    }
 }

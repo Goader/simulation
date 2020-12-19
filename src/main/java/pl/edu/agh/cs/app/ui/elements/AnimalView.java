@@ -43,7 +43,7 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
             // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
         }
         // needs change, we wanna know width and height from arguments
-        int iconwidth = 48;
+        int iconwidth = 23;
         criticalEnergyIcon = new Image(critical, iconwidth, iconwidth, true, true);
         lowEnergyIcon = new Image(low, iconwidth, iconwidth, true, true);
         mediumEnergyIcon = new Image(medium, iconwidth, iconwidth, true, true);

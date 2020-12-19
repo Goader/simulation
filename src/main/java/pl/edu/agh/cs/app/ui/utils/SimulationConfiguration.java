@@ -10,12 +10,12 @@ public class SimulationConfiguration {
     protected final int plantEnergy;
     protected final int animalCount;
 
-    public SimulationConfiguration(int width, int height, int jungleRatio, int startEnergy, int moveEnergy, int plantEnergy, int animalCount) {
+    public SimulationConfiguration(int width, int height, double jungleRatio, int startEnergy, int moveEnergy, int plantEnergy, int animalCount) {
         this.width = width;
         this.height = height;
 
-        this.jungleWidth = jungleRatio * width;
-        this.jungleHeight = jungleRatio * height;
+        this.jungleWidth = (int) (jungleRatio * width);
+        this.jungleHeight = (int) (jungleRatio * height);
 
         this.startEnergy = startEnergy;
         this.moveEnergy = moveEnergy;

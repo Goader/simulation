@@ -38,13 +38,13 @@ public class JSONSimParser {
     }
 
     protected static SimulationConfiguration parseSimulationConfiguration(JSONObject sim) {
-        int width = (int) sim.get("width");
-        int height = (int) sim.get("height");
-        int jungleRatio = (int) sim.get("jungleRatio");
-        int startEnergy = (int) sim.get("startEnergy");
-        int moveEnergy = (int) sim.get("moveEnergy");
-        int plantEnergy = (int) sim.get("plantEnergy");
-        int animalCount = (int) sim.get("animalCount");
+        int width = Math.toIntExact((Long) sim.get("width"));
+        int height = Math.toIntExact((Long) sim.get("height"));
+        double jungleRatio = (double) sim.get("jungleRatio");
+        int startEnergy = Math.toIntExact((Long) sim.get("startEnergy"));
+        int moveEnergy = Math.toIntExact((Long) sim.get("moveEnergy"));
+        int plantEnergy = Math.toIntExact((Long) sim.get("plantEnergy"));
+        int animalCount = Math.toIntExact((Long) sim.get("animalCount"));
 
         SimulationConfiguration config = new SimulationConfiguration(width, height, jungleRatio,
                 startEnergy, moveEnergy, plantEnergy, animalCount);

@@ -11,6 +11,7 @@ import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.utils.MapOrientation;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E extends AbstractJungleMapNonMovableElement,
@@ -23,7 +24,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
     protected final Vector2dBound upperrightJungleCorner;
 
 
-    public JungleMap(int width, int height, int jungleHeight, int jungleWidth) {
+    public JungleMap(int width, int height, int jungleWidth, int jungleHeight) {
         super(width, height);
         if (jungleHeight >= height || jungleWidth >= width) {
             throw new IllegalArgumentException("Jungle height/width cannot exceed or be equal to the height/width of map");
@@ -131,6 +132,16 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
             return Optional.empty();
         }
         return Optional.of(emptyNonJungleCells.toArray(new Vector2dBound[0])[(int) (Math.random() * size)]);
+    }
+
+    public Optional<Vector2dBound> getRandomEmptyCellPosition() {
+        int emptyCellsCount = emptyJungleCells.size() + emptyNonJungleCells.size();
+        if (Math.random() * emptyCellsCount < emptyJungleCells.size()) {
+            return getRandomEmptyJungleCellPosition();
+        }
+        else {
+            return getRandomEmptyNonJungleCellPosition();
+        }
     }
 
     public int getJungleHeight() {

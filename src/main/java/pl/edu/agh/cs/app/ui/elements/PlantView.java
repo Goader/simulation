@@ -20,7 +20,7 @@ public class PlantView extends ImageView {
             // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
         }
         // needs change, we wanna know width and height from arguments
-        plantIcon = new Image(pl, 48, 48, true, true);
+        plantIcon = new Image(pl, 23, 23, true, true);
         this.setImage(plantIcon);
     }
 }
