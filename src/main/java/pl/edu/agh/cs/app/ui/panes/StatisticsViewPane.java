@@ -22,6 +22,8 @@ public class StatisticsViewPane extends VBox {
         this.getChildren().add(getLabelsBox("Current animals count: ", statistics.animalsCountProperty().asString()));
         this.getChildren().add(getLabelsBox("Average animals energy: ", statistics.averageEnergyProperty().asString("%.2f")));
         this.getChildren().add(getGenotypeBox());
+        this.getChildren().add(getLabelsBox("Average lifetime: ", statistics.averageLifetimeProperty().asString("%.2f")));
+        this.getChildren().add(getLabelsBox("Average kids count: ", statistics.averageKidsCountProperty().asString("%.2f")));
     }
 
     protected VBox getGenotypeBox() {

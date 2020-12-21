@@ -17,6 +17,7 @@ import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,9 +26,13 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
                                              IBreedObserver<Animal>,
                                              IStarveObserver<Animal>,
                                              ISeedObserver<Plant> {
-    protected HashSet<Plant> plants;
     protected Simulation simulation;
     protected SimulationStatus status;
+
+    protected HashSet<Plant> plants;
+    protected HashMap<Animal, Integer> birthday;
+    protected HashMap<Animal, Integer> kidsCount;
+    protected int starvedAnimals;
 
     protected IntegerProperty plantsCount;
     protected IntegerProperty animalsCount;
@@ -42,6 +47,10 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         this.status = status;
 
         plants = new HashSet<>();
+        birthday = new HashMap<>();
+        kidsCount = new HashMap<>();
+        starvedAnimals = 0;
+
         plantsCount = new SimpleIntegerProperty();
         animalsCount = new SimpleIntegerProperty();
         averageEnergy = new SimpleFloatProperty();
@@ -70,7 +79,8 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         }
     }
 
-    public void initialiseGenotypes(List<Animal> animals) {
+    public void initialiseAnimals(List<Animal> animals) {
+        // initialising genotypes
         ArrayList<Integer> genesCount = new ArrayList<>();
         for (int i = 0; i < Genotype.GENE_TYPES; i++) {
             genesCount.add(0);
@@ -85,6 +95,12 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         for (int i = 0; i < Genotype.GENE_TYPES; i++) {
             averageGenotype.get(i).set((float) genesCount.get(i) / animalsCount.get());
         }
+
+        // initialising birthdays
+        for (Animal animal : animals) {
+            birthday.put(animal, 0);
+            kidsCount.put(animal, 0);
+        }
     }
 
     @Override
@@ -94,6 +110,7 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         newElement.addEatObserver(this);
         newElement.addEnergyChangeObserver(this);
 
+        // updating energy
         float totalEnergy = averageEnergy.get() * animalsCount.get();
         totalEnergy += newElement.getEnergy();
         totalEnergy += (firstElement.getEnergy() - firstEnergyBefore);
@@ -102,7 +119,21 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         animalsCount.set(animalsCount.get() + 1);
 
         averageEnergy.set(totalEnergy / animalsCount.get());
+
+        // updating genotype
         updateAverageGenotype(newElement.getGenotype(), animalsCount.get() - 1, animalsCount.get());
+
+        // preparing lifetime
+        birthday.put(newElement, status.getDay());
+
+        // updating kids count
+        kidsCount.put(newElement, 0);
+        kidsCount.put(firstElement, kidsCount.get(firstElement) + 1);
+        kidsCount.put(secondElement, kidsCount.get(secondElement) + 1);
+
+        float totalKidsCount = averageKidsCount.get() * (animalsCount.get() - 1);
+        totalKidsCount += 2;
+        averageKidsCount.set(totalKidsCount / animalsCount.get());
     }
 
     @Override
@@ -135,12 +166,27 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         starvedElement.removeEatObserver(this);
         starvedElement.removeEnergyChangeObserver(this);
 
+        // updating energy
         float totalEnergy = averageEnergy.get() * animalsCount.get();
         totalEnergy -= starvedElement.getEnergy();
         animalsCount.set(animalsCount.get() - 1);
         averageEnergy.set(totalEnergy / animalsCount.get());
 
+        // updating genotype
         updateAverageGenotype(starvedElement.getGenotype(), animalsCount.get() + 1, animalsCount.get());
+
+        // updating lifetime
+        int lifetime = status.getDay() - birthday.get(starvedElement);
+        float totalLifetime = averageLifetime.get() * starvedAnimals;
+        totalLifetime += lifetime;
+        starvedAnimals += 1;
+        averageLifetime.set(totalLifetime / starvedAnimals);
+
+        // updating children count
+        float totalKidsCount = averageKidsCount.get() * (animalsCount.get() + 1);
+        totalKidsCount -= kidsCount.get(starvedElement);
+        kidsCount.remove(starvedElement);
+        averageKidsCount.set(totalKidsCount / animalsCount.get());
     }
 
     public int getPlantsCount() {
@@ -185,5 +231,13 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
 
     public ArrayList<FloatProperty> averageGenotypeProperties() {
         return averageGenotype;
+    }
+
+    public ArrayList<Float> getAverageGenotype() {
+        ArrayList<Float> genotype = new ArrayList<>();
+        for (FloatProperty prop : averageGenotype) {
+            genotype.add(prop.get());
+        }
+        return genotype;
     }
 }

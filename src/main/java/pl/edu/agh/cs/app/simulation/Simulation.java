@@ -10,6 +10,7 @@ import pl.edu.agh.cs.app.simulation.maps.JungleMap;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.statistics.PopulationStatistics;
+import pl.edu.agh.cs.app.simulation.statistics.TotalStatistics;
 import pl.edu.agh.cs.app.simulation.utils.PlantSeeder;
 import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 import pl.edu.agh.cs.app.simulation.utils.SimulationConfiguration;
@@ -24,6 +25,7 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
     protected final PlantSeeder seeder;
     protected final SimulationConfiguration config;
     protected final PopulationStatistics statistics;
+    protected final TotalStatistics totalStatistics;
 
     public Simulation(SimulationConfiguration config) {
         this.config = config;
@@ -32,6 +34,7 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
         seeder = new PlantSeeder(map);
         animals = new HashSet<>();
         statistics = new PopulationStatistics(this, status);
+        totalStatistics = new TotalStatistics(this, status);
         seeder.addSeedObserver(statistics);
 
         if (config.getAnimalCount() > config.getHeight() * config.getWidth()) {
@@ -55,7 +58,7 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
             animal.addStarveObserver(statistics);
         }
 
-        statistics.initialiseGenotypes(new ArrayList<>(animals));
+        statistics.initialiseAnimals(new ArrayList<>(animals));
     }
 
     public SimulationConfiguration getConfig() {
