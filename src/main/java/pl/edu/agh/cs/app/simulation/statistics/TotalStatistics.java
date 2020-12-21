@@ -1,14 +1,11 @@
 package pl.edu.agh.cs.app.simulation.statistics;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class TotalStatistics implements ChangeListener<Number> {
@@ -64,6 +61,6 @@ public class TotalStatistics implements ChangeListener<Number> {
     }
 
     public void writeTotalStatistics() {
-        
+
     }
 }

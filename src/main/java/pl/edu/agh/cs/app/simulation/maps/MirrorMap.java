@@ -1,8 +1,8 @@
 package pl.edu.agh.cs.app.simulation.maps;
 
 import pl.edu.agh.cs.app.simulation.cells.MirrorMapCell;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapMovableElement;
+import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.IMirrorMapElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;

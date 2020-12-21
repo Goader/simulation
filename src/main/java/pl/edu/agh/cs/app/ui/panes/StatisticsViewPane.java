@@ -32,7 +32,7 @@ public class StatisticsViewPane extends VBox {
         for (Integer i = 0; i < Genotype.GENE_TYPES; i++) {
             genesBoxes.add(i, getLabelsBox(i.toString() + ": ", statistics.averageGenotypeProperties().get(i).asString("%.2f")));
         }
-        HBox firstLineBox =  new HBox(5);
+        HBox firstLineBox = new HBox(5);
         HBox secondLineBox = new HBox(5);
         firstLineBox.getChildren().addAll(genesBoxes.subList(0, Genotype.GENE_TYPES / 2));
         secondLineBox.getChildren().addAll(genesBoxes.subList(Genotype.GENE_TYPES / 2, genesBoxes.size()));

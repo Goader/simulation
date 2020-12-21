@@ -27,16 +27,12 @@ public class PlantSeeder implements ISeedPublisher {
 
     public void seedPlantJungle(int energy) {
         Optional<Vector2dBound> optPos = map.getRandomEmptyJungleCellPosition();
-        if (optPos.isPresent()) {
-            seedPlant(energy, optPos.get());
-        }
+        optPos.ifPresent(vector2dBound -> seedPlant(energy, vector2dBound));
     }
 
     public void seedPlantNotJungle(int energy) {
         Optional<Vector2dBound> optPos = map.getRandomEmptyNonJungleCellPosition();
-        if (optPos.isPresent()) {
-            seedPlant(energy, optPos.get());
-        }
+        optPos.ifPresent(vector2dBound -> seedPlant(energy, vector2dBound));
     }
 
     protected void notifySeedObservers(Plant plant, Vector2dBound position) {

@@ -9,9 +9,12 @@ import pl.edu.agh.cs.app.simulation.observers.IEatObserver;
 import pl.edu.agh.cs.app.simulation.observers.IEnergyChangeObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 
-import java.util.*;
-import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.TreeMap;
 
 public class JungleMapCell<IE extends IJungleMapElement,
         E extends AbstractJungleMapNonMovableElement, EM extends AbstractJungleMapMovableElement>

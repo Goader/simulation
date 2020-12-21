@@ -1,11 +1,7 @@
 package pl.edu.agh.cs.app.ui.utils;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class SimulationStatus {
     protected boolean running;

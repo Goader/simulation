@@ -34,27 +34,27 @@ public class Vector2dBound extends AbstractVector2d {
     @Override
     public Vector2dBound upperRight(IVector2d other) {
         return new Vector2dBound(Math.min(Math.max(this.x, other.getX()), xBound - 1),
-                                Math.min(Math.max(this.y, other.getY()), yBound - 1),
-                                xBound, yBound);
+                Math.min(Math.max(this.y, other.getY()), yBound - 1),
+                xBound, yBound);
     }
 
     @Override
     public Vector2dBound lowerLeft(IVector2d other) {
         return new Vector2dBound(Math.max(Math.min(this.x, other.getX()), 0),
-                                Math.max(Math.min(this.y, other.getY()), 0),
-                                xBound, yBound);
+                Math.max(Math.min(this.y, other.getY()), 0),
+                xBound, yBound);
     }
 
     @Override
     public Vector2dBound add(IVector2d other) {
         return new Vector2dBound(mod((this.x + other.getX()), xBound), mod((this.y + other.getY()), yBound),
-                                xBound, yBound);
+                xBound, yBound);
     }
 
     @Override
     public Vector2dBound subtract(IVector2d other) {
         return new Vector2dBound(mod((this.x - other.getX()), xBound), mod((this.y - other.getY()), yBound),
-                                xBound, yBound);
+                xBound, yBound);
     }
 
     @Override

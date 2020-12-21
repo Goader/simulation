@@ -7,7 +7,6 @@ import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Plant;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
-import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dEucl;
 import pl.edu.agh.cs.app.simulation.maps.JungleMap;
 import pl.edu.agh.cs.app.simulation.observers.ISeedObserver;

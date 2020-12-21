@@ -3,9 +3,7 @@ package pl.edu.agh.cs.app.simulation.utils;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dEucl;
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MapOrientationTest {
 

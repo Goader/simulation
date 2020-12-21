@@ -1,8 +1,8 @@
 package pl.edu.agh.cs.app.simulation.maps;
 
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapMovableElement;
+import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
@@ -11,7 +11,6 @@ import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.utils.MapOrientation;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 
 public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E extends AbstractJungleMapNonMovableElement,
@@ -76,8 +75,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
             if (wasEmptyCell) {
                 if (isJungle(element.getPosition())) {
                     emptyJungleCells.remove(element.getPosition());
-                }
-                else {
+                } else {
                     emptyNonJungleCells.remove(element.getPosition());
                 }
             }
@@ -138,8 +136,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         int emptyCellsCount = emptyJungleCells.size() + emptyNonJungleCells.size();
         if (Math.random() * emptyCellsCount < emptyJungleCells.size()) {
             return getRandomEmptyJungleCellPosition();
-        }
-        else {
+        } else {
             return getRandomEmptyNonJungleCellPosition();
         }
     }
@@ -159,7 +156,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
                 return testPosition;
             }
         }
-        return position.add(MapOrientation.fromInteger((int) Math.random() * MapOrientation.values().length).toUnitVector());
+        return position.add(MapOrientation.fromInteger((int) (Math.random() * MapOrientation.values().length)).toUnitVector());
     }
 
     @Override
@@ -173,8 +170,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         if (!cells.containsKey(oldPosition)) {
             if (isJungle(oldPosition)) {
                 emptyJungleCells.add((Vector2dBound) oldPosition);
-            }
-            else {
+            } else {
                 emptyNonJungleCells.add((Vector2dBound) oldPosition);
             }
         }
@@ -202,8 +198,7 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
             cells.remove(position);
             if (isJungle(position)) {
                 emptyJungleCells.add((Vector2dBound) position);
-            }
-            else {
+            } else {
                 emptyNonJungleCells.add((Vector2dBound) position);
             }
         }

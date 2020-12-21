@@ -1,11 +1,9 @@
 package pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap;
 
-import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.maps.JungleMap;
-import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
 import pl.edu.agh.cs.app.simulation.observers.IViewObserver;
 import pl.edu.agh.cs.app.simulation.observers.IViewPublisher;
 import pl.edu.agh.cs.app.ui.elements.AnimalView;
@@ -79,8 +77,7 @@ public class Animal extends AbstractJungleMapMovableElement implements IViewPubl
     public void move() {
         if (willStarve()) {
             starve();
-        }
-        else {
+        } else {
             Vector2dBound newPosition = position.add(oriented.toUnitVector());
             if (map.canMoveTo(this, newPosition)) {
                 Vector2dBound oldPosition = position;

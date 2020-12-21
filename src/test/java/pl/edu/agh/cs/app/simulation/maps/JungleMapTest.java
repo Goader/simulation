@@ -13,10 +13,10 @@ import pl.edu.agh.cs.app.simulation.utils.MapOrientation;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 class JungleMapTest {
     List<Integer> genesCounter = Arrays.asList(4, 4, 4, 4, 4, 4, 4, 4);
@@ -210,8 +210,7 @@ class JungleMapTest {
         if (entry.getKey().equals(animal2)) {
             assertEquals(entry.getKey(), animal2);
             assertEquals(entry.getValue(), animal3);
-        }
-        else {
+        } else {
             assertEquals(entry.getKey(), animal3);
             assertEquals(entry.getValue(), animal2);
         }
@@ -230,8 +229,7 @@ class JungleMapTest {
         if (entry.getKey().equals(animal1)) {
             assertEquals(entry.getKey(), animal1);
             assertEquals(entry.getValue(), animal2);
-        }
-        else {
+        } else {
             assertEquals(entry.getKey(), animal2);
             assertEquals(entry.getValue(), animal1);
         }
@@ -415,14 +413,12 @@ class JungleMapTest {
         Animal animal32 = new Animal(vec3, 10, 0, genotype, map);
         Animal animal33 = new Animal(vec3, 4, 0, genotype, map);
 
-        LinkedList<Animal> activeAnimals = new LinkedList<>();
+        LinkedList<Animal> activeAnimals = new LinkedList<>(Arrays.asList(animal11, animal12, animal14, animal21, animal23, animal31, animal32, animal33));
 
         // first day
         map.place(plant11);
         map.place(plant21);
         map.place(plant31);
-
-        activeAnimals.addAll(Arrays.asList(animal11, animal12, animal14, animal21, animal23, animal31, animal32, animal33));
 
         for (Animal anim : activeAnimals) map.place(anim);
 
@@ -475,8 +471,7 @@ class JungleMapTest {
         if (animal21.getEnergy() > animal22.getEnergy()) {
             assertEquals(animal21.getEnergy(), 73);
             assertEquals(animal22.getEnergy(), 72);
-        }
-        else {
+        } else {
             assertEquals(animal21.getEnergy(), 72);
             assertEquals(animal22.getEnergy(), 73);
         }
@@ -501,8 +496,7 @@ class JungleMapTest {
         if (animal21.getEnergy() > animal22.getEnergy()) {
             assertEquals(animal21.getEnergy(), 74);
             assertEquals(animal22.getEnergy(), 72);
-        }
-        else {
+        } else {
             assertEquals(animal21.getEnergy(), 72);
             assertEquals(animal22.getEnergy(), 74);
         }
@@ -569,7 +563,7 @@ class JungleMapTest {
                 b21, b22, b23, b24, b25, b26, b27, b31, b32, b33, b34, b35, b36, b37));
 
         for (Animal anim : activeAnimals) map.place(anim);
-        for (Animal anim: boundsAnimals) map.place(anim);
+        for (Animal anim : boundsAnimals) map.place(anim);
 
         Vector2dBound vec1t = new Vector2dBound(3, 3, 10, 10);
         Vector2dBound vec2t = new Vector2dBound(5, 6, 10, 10);
@@ -662,7 +656,7 @@ class JungleMapTest {
         // (3, 3) left
 
         LinkedList<Animal> boundsAnimals = new LinkedList<>(Arrays.asList(b11, b12, b13, b14, b15, b16, b17));
-        for (Animal anim: boundsAnimals) map.place(anim);
+        for (Animal anim : boundsAnimals) map.place(anim);
 
         map.place(animal11);
         map.place(animal12);

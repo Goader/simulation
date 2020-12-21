@@ -12,7 +12,7 @@ class Vector2dEuclTest {
         Vector2dEucl vec3 = new Vector2dEucl(10, 25);
 
         assertEquals(vec1, vec2);
-        assertFalse(vec1.equals(vec3));
+        assertNotEquals(vec1, vec3);
     }
 
     @Test

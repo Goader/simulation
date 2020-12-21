@@ -1,7 +1,5 @@
 package pl.edu.agh.cs.app.simulation.geometry;
 
-import java.lang.Math;
-
 public class Vector2dEucl extends AbstractVector2d {
     public Vector2dEucl(int x, int y) {
         super(x, y);

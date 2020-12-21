@@ -1,21 +1,22 @@
 package pl.edu.agh.cs.app.ui.utils;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import pl.edu.agh.cs.app.simulation.utils.SimulationConfiguration;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class JSONSimParser {
     public static ArrayList<SimulationConfiguration> parse() {
         JSONParser parser = new JSONParser();
         ArrayList<SimulationConfiguration> configs = null;
 
-        try (FileReader reader = new FileReader("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\parameters.json")) {
+        try (FileReader reader = new FileReader(JSONSimParser.class.getResource("/parameters.json").getPath())) {
             Object parsed = parser.parse(reader);
 
             JSONArray sims = (JSONArray) parsed;
@@ -32,7 +33,7 @@ public class JSONSimParser {
 
     protected static ArrayList<SimulationConfiguration> parseJSONArray(JSONArray array) {
         ArrayList<SimulationConfiguration> simulations = new ArrayList<>();
-        for (Object simulationEntry: array) {
+        for (Object simulationEntry : array) {
             simulations.add(parseSimulationConfiguration((JSONObject) simulationEntry));
         }
         return simulations;
@@ -47,9 +48,7 @@ public class JSONSimParser {
         int plantEnergy = Math.toIntExact((Long) sim.get("plantEnergy"));
         int animalCount = Math.toIntExact((Long) sim.get("animalCount"));
 
-        SimulationConfiguration config = new SimulationConfiguration(width, height, jungleRatio,
+        return new SimulationConfiguration(width, height, jungleRatio,
                 startEnergy, moveEnergy, plantEnergy, animalCount);
-
-        return config;
     }
 }

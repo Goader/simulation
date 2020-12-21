@@ -53,7 +53,7 @@ public class Genotype {
     public static ArrayList<Integer> genesCounterToList(List<Integer> genesCounter) {
         validateCounter(genesCounter);
         ArrayList<Integer> genesList = new ArrayList<>(GENES_COUNT);
-        while(genesList.size() < GENES_COUNT) genesList.add(0);
+        while (genesList.size() < GENES_COUNT) genesList.add(0);
         for (int geneType = 0, i = 0; geneType < GENE_TYPES; geneType++) {
             for (int geneCount = 0; geneCount < genesCounter.get(geneType); geneCount++, i++) {
                 genesList.set(i, geneType);
@@ -65,7 +65,7 @@ public class Genotype {
     public static ArrayList<Integer> genesListToCounter(List<Integer> genesList) {
         validateList(genesList);
         ArrayList<Integer> genesCounter = new ArrayList<>(GENE_TYPES);
-        while(genesCounter.size() < GENE_TYPES) genesCounter.add(0);
+        while (genesCounter.size() < GENE_TYPES) genesCounter.add(0);
         for (Integer geneType : genesList) {
             genesCounter.set(geneType, genesCounter.get(geneType) + 1);
         }

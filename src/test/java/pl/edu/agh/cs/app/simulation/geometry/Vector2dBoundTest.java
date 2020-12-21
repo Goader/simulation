@@ -2,7 +2,8 @@ package pl.edu.agh.cs.app.simulation.geometry;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Vector2dBoundTest {
     @Test

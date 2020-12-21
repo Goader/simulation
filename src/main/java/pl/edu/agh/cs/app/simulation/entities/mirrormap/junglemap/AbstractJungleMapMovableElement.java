@@ -1,7 +1,6 @@
 package pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap;
 
 import pl.edu.agh.cs.app.simulation.data.Genotype;
-import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.observers.*;
@@ -80,7 +79,7 @@ abstract public class AbstractJungleMapMovableElement
     }
 
     protected void notifyBreedObservers(AbstractJungleMapMovableElement mate, AbstractJungleMapMovableElement child,
-                                     int firstEnergyBefore, int secondEnergyBefore, Vector2dBound position) {
+                                        int firstEnergyBefore, int secondEnergyBefore, Vector2dBound position) {
         HashSet<IBreedObserver> observersCopy = (HashSet<IBreedObserver>) breedObservers.clone();
         for (IBreedObserver observer : observersCopy) {
             observer.bred(this, mate, child, firstEnergyBefore, secondEnergyBefore, position);

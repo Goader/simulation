@@ -45,8 +45,8 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
 
         this.mapView = new MapViewPane(mapWidth, mapHeight, simulation.getMap(), cellSide);
         this.statisticsView = new StatisticsViewPane(pxCenterWidth - cellSide * mapWidth - centerSpacing,
-                                                           pxCenterHeight,
-                                                           simulation.getStatistics());
+                pxCenterHeight,
+                simulation.getStatistics());
 
         this.setCenter(new HBox(centerSpacing, statisticsView, mapView));
         this.setPadding(new Insets(padding, padding, padding, padding));

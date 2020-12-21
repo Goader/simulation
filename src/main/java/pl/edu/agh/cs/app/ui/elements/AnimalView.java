@@ -2,25 +2,20 @@ package pl.edu.agh.cs.app.ui.elements;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapMovableElement;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Plant;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.observers.IBreedObserver;
 import pl.edu.agh.cs.app.simulation.observers.IEatObserver;
 import pl.edu.agh.cs.app.simulation.observers.IEnergyChangeObserver;
-import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class AnimalView extends ImageView implements IEnergyChangeObserver<Animal>, IEatObserver<Animal, Plant>, IBreedObserver<Animal> {
-    protected InputStream critical = InputStream.nullInputStream();
-    protected InputStream low = InputStream.nullInputStream();
-    protected InputStream medium = InputStream.nullInputStream();
-    protected InputStream high = InputStream.nullInputStream();
+    protected InputStream critical;
+    protected InputStream low;
+    protected InputStream medium;
+    protected InputStream high;
 
     protected Image criticalEnergyIcon;
     protected Image lowEnergyIcon;
@@ -35,15 +30,11 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
 
     public AnimalView(Animal animal) {
         super();
-        try {
-            critical = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_critical.png");
-            low = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_low.png");
-            medium = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_med.png");
-            high = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_high.png");
-        } catch (FileNotFoundException ex) {
-            System.exit(-54);  // couldn't find a better way to handle it
-            // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
-        }
+        critical = AnimalView.class.getResourceAsStream("/paw_critical.png");
+        low = AnimalView.class.getResourceAsStream("/paw_low.png");
+        medium = AnimalView.class.getResourceAsStream("/paw_med.png");
+        high = AnimalView.class.getResourceAsStream("/paw_high.png");
+
         // needs change, we wanna know width and height from arguments
         criticalEnergyIcon = new Image(critical, imageSideSize, imageSideSize, true, true);
         lowEnergyIcon = new Image(low, imageSideSize, imageSideSize, true, true);
@@ -81,15 +72,11 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
         }
         imageSideSize = size;
 
-        try {
-            critical = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_critical.png");
-            low = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_low.png");
-            medium = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_med.png");
-            high = new FileInputStream("C:\\FILES_IN_USE\\java\\simulation\\src\\main\\resources\\paw_high.png");
-        } catch (FileNotFoundException ex) {
-            System.exit(-54);  // couldn't find a better way to handle it
-            // of course, we could have used some default textures from JavaFX, but it's not beautiful :)
-        }
+        critical = AnimalView.class.getResourceAsStream("/paw_critical.png");
+        low = AnimalView.class.getResourceAsStream("/paw_low.png");
+        medium = AnimalView.class.getResourceAsStream("/paw_med.png");
+        high = AnimalView.class.getResourceAsStream("/paw_high.png");
+
         criticalEnergyIcon = new Image(critical, size, size, true, true);
         lowEnergyIcon = new Image(low, size, size, true, true);
         mediumEnergyIcon = new Image(medium, size, size, true, true);

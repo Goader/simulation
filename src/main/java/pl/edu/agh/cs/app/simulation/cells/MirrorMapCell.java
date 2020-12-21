@@ -1,11 +1,12 @@
 package pl.edu.agh.cs.app.simulation.cells;
 
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapMovableElement;
+import pl.edu.agh.cs.app.simulation.entities.mirrormap.AbstractMirrorMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.IMirrorMapElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 public class MirrorMapCell<IE extends IMirrorMapElement,
         E extends AbstractMirrorMapNonMovableElement, EM extends AbstractMirrorMapMovableElement>
@@ -67,8 +68,7 @@ public class MirrorMapCell<IE extends IMirrorMapElement,
             if (!movableElements.contains(element)) {
                 movableElements.add((EM) element);
             }
-        }
-        else {
+        } else {
             if (!nonMovableElements.contains(element)) {
                 nonMovableElements.add((E) element);
             }
@@ -80,8 +80,7 @@ public class MirrorMapCell<IE extends IMirrorMapElement,
     public void removeElement(IE element) {
         if (element.isMovable()) {
             movableElements.remove(element);
-        }
-        else {
+        } else {
             nonMovableElements.remove(element);
         }
     }
@@ -90,8 +89,7 @@ public class MirrorMapCell<IE extends IMirrorMapElement,
     public boolean containsElement(IE element) {
         if (element.isMovable()) {
             return movableElements.contains(element);
-        }
-        else {
+        } else {
             return nonMovableElements.contains(element);
         }
     }

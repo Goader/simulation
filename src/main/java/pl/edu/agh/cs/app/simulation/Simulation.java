@@ -12,8 +12,8 @@ import pl.edu.agh.cs.app.simulation.observers.IStarveObserver;
 import pl.edu.agh.cs.app.simulation.statistics.PopulationStatistics;
 import pl.edu.agh.cs.app.simulation.statistics.TotalStatistics;
 import pl.edu.agh.cs.app.simulation.utils.PlantSeeder;
-import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 import pl.edu.agh.cs.app.simulation.utils.SimulationConfiguration;
+import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 import java.util.ArrayList;
 import java.util.HashSet;

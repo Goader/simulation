@@ -6,16 +6,12 @@ import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
-import pl.edu.agh.cs.app.simulation.entities.IMapElement;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapMovableElement;
-import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.AbstractJungleMapNonMovableElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Plant;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.observers.*;
 import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,7 +38,7 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
 
     protected ArrayList<FloatProperty> averageGenotype;
 
-    public PopulationStatistics (Simulation simulation, SimulationStatus status) {
+    public PopulationStatistics(Simulation simulation, SimulationStatus status) {
         this.simulation = simulation;
         this.status = status;
 
