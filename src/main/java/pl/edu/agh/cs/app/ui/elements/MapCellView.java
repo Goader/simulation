@@ -1,10 +1,9 @@
 package pl.edu.agh.cs.app.ui.elements;
 
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.IJungleMapElement;
@@ -22,12 +21,13 @@ public class MapCellView extends StackPane {
     protected final SimulationViewPane simulationView;
     protected final JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> map;
     protected final IVector2d position;
-
+    protected final Simulation simulation;
 
     public MapCellView(int sideSize, boolean isJungle, SimulationViewPane simulationView,
                        JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> map,
-                       IVector2d position) {
+                       IVector2d position, Simulation simulation) {
         this.simulationView = simulationView;
+        this.simulation = simulation;
         this.map = map;
         this.position = position;
         this.sideSize = sideSize;
@@ -70,6 +70,11 @@ public class MapCellView extends StackPane {
                 if (animal.getView().getImageSideSize() != sideSize) {
                     animal.getView().setImageSideSize(sideSize);
                 }
+
+                // checking whether to emphasize animals having dominant gene
+                animal.getView().setShowDominant(simulation.getStatus().isShowDominantGene() &&
+                        simulation.getStatistics().getDominatingGene() == animal.getGenotype().getDominatingGene());
+
                 animal.getView().update();
                 this.getChildren().add(animal.getView());
             }

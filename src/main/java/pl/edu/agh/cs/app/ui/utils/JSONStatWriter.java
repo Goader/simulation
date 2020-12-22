@@ -47,7 +47,7 @@ public class JSONStatWriter {
         statsArray.add(stats);
 
         try (FileWriter writer = new FileWriter(JSONSimParser.class.getResource("/statistics.json").getPath(), false)) {
-            writer.write(statsArray.toJSONString());
+            statsArray.writeJSONString(writer);
             writer.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

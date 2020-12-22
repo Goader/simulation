@@ -47,7 +47,7 @@ public class View extends Application {
                 Runnable runnable = simulation::nextDay;
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(simulation.getStatus().getTickTime());
                     } catch (InterruptedException ex) {
                         simulation.getStatus().setStopped(true);
                     }

@@ -27,6 +27,10 @@ public class FamilyLinker implements IBreedObserver<Animal>,
         }
     }
 
+    public OffspringCounter getOffspringCounter(Animal animal) {
+        return offsprings.get(animal);
+    }
+
     public LinkedList<Pair<Integer, Integer>> getDirectKids(Animal animal) {
         return offsprings.get(animal).getDirectKids();
     }

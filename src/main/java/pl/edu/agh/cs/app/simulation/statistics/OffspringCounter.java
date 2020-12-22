@@ -1,5 +1,7 @@
 package pl.edu.agh.cs.app.simulation.statistics;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Pair;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
@@ -18,6 +20,9 @@ public class OffspringCounter implements IBreedObserver<Animal>,
     protected LinkedList<Pair<Integer, Integer>> directKids;
     protected LinkedList<Pair<Integer, Integer>> offspring;
 
+    protected IntegerProperty currentDirectKidsCount;
+    protected IntegerProperty currentOffspringCount;
+
     protected HashSet<Animal> offspringSet;
 
     public OffspringCounter(Animal animal, SimulationStatus status) {
@@ -27,6 +32,9 @@ public class OffspringCounter implements IBreedObserver<Animal>,
         directKids = new LinkedList<>();
         offspring = new LinkedList<>();
         offspringSet = new HashSet<>();
+
+        currentDirectKidsCount = new SimpleIntegerProperty(0);
+        currentOffspringCount = new SimpleIntegerProperty(0);
 
         directKids.add(new Pair<>(status.getDay(), 0));
         offspring.add(new Pair<>(status.getDay(), 0));
@@ -56,8 +64,10 @@ public class OffspringCounter implements IBreedObserver<Animal>,
     public void bred(Animal firstElement, Animal secondElement, Animal newElement, int firstEnergyBefore, int secondEnergyBefore, IVector2d position) {
         if (firstElement == animal || secondElement == animal) {
             updateDayCountCollection(directKids);
+            currentDirectKidsCount.set(directKids.getLast().getValue());
         }
         updateDayCountCollection(offspring);
+        currentOffspringCount.set(offspring.getLast().getValue());
 
         offspringSet.add(newElement);
 
@@ -77,5 +87,21 @@ public class OffspringCounter implements IBreedObserver<Animal>,
         }
         starvedElement.removeBreedObserver(this);
         starvedElement.removeStarveObserver(this);
+    }
+
+    public int getCurrentDirectKidsCount() {
+        return currentDirectKidsCount.get();
+    }
+
+    public IntegerProperty currentDirectKidsCountProperty() {
+        return currentDirectKidsCount;
+    }
+
+    public int getCurrentOffspringCount() {
+        return currentOffspringCount.get();
+    }
+
+    public IntegerProperty currentOffspringCountProperty() {
+        return currentOffspringCount;
     }
 }

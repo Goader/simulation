@@ -17,18 +17,21 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
     protected InputStream medium;
     protected InputStream high;
     protected InputStream focused;
+    protected InputStream dominant;
 
     protected Image criticalEnergyIcon;
     protected Image lowEnergyIcon;
     protected Image mediumEnergyIcon;
     protected Image highEnergyIcon;
     protected Image inFocusIcon;
+    protected Image dominantGeneIcon;
 
     protected final Animal animal;
 
     protected int lastEnergy;
 
     protected boolean inFocus;
+    protected boolean showDominant;
 
     protected int imageSideSize = 20;
 
@@ -39,6 +42,8 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
         medium = AnimalView.class.getResourceAsStream("/paw_med.png");
         high = AnimalView.class.getResourceAsStream("/paw_high.png");
         focused = AnimalView.class.getResourceAsStream("/paw_focused.png");
+        dominant = AnimalView.class.getResourceAsStream("/paw_gene.png");
+
 
         // needs change, we wanna know width and height from arguments
         criticalEnergyIcon = new Image(critical, imageSideSize, imageSideSize, true, true);
@@ -46,6 +51,7 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
         mediumEnergyIcon = new Image(medium, imageSideSize, imageSideSize, true, true);
         highEnergyIcon = new Image(high, imageSideSize, imageSideSize, true, true);
         inFocusIcon = new Image(focused, imageSideSize, imageSideSize, true, true);
+        dominantGeneIcon = new Image(dominant, imageSideSize, imageSideSize, true, true);
 
         this.animal = animal;
         this.lastEnergy = animal.getEnergy();
@@ -59,6 +65,9 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
 
         if (inFocus) {
             return inFocusIcon;
+        }
+        if (showDominant) {
+            return dominantGeneIcon;
         }
 
         if (energy < 2 * moveCost) {
@@ -88,12 +97,14 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
         medium = AnimalView.class.getResourceAsStream("/paw_med.png");
         high = AnimalView.class.getResourceAsStream("/paw_high.png");
         focused = AnimalView.class.getResourceAsStream("/paw_focused.png");
+        dominant = AnimalView.class.getResourceAsStream("/paw_gene.png");
 
         criticalEnergyIcon = new Image(critical, size, size, true, true);
         lowEnergyIcon = new Image(low, size, size, true, true);
         mediumEnergyIcon = new Image(medium, size, size, true, true);
         highEnergyIcon = new Image(high, size, size, true, true);
         inFocusIcon = new Image(focused, size, size, true, true);
+        dominantGeneIcon = new Image(dominant, size, size, true, true);
 
         this.lastEnergy = animal.getEnergy();
         this.setImage(getImage(animal));
@@ -109,6 +120,14 @@ public class AnimalView extends ImageView implements IEnergyChangeObserver<Anima
 
     public boolean isInFocus() {
         return inFocus;
+    }
+
+    public void setShowDominant(boolean showDominant) {
+        this.showDominant = showDominant;
+    }
+
+    public boolean isShowDominant() {
+        return showDominant;
     }
 
     @Override

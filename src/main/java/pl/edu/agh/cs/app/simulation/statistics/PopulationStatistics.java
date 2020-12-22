@@ -10,7 +10,6 @@ import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Plant;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.observers.*;
-import pl.edu.agh.cs.app.ui.panes.IndividualStatisticsPane;
 import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 import java.util.ArrayList;
@@ -74,6 +73,7 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         for (int i = 1; i < averageGenotype.size(); i++) {
             if (domination < averageGenotype.get(i).get()) {
                 maxGene = i;
+                domination = averageGenotype.get(i).get();
             }
         }
         return maxGene;

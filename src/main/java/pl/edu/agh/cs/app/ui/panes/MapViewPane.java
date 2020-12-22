@@ -1,6 +1,7 @@
 package pl.edu.agh.cs.app.ui.panes;
 
 import javafx.scene.layout.GridPane;
+import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.entities.IMapElement;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
@@ -21,7 +22,7 @@ public class MapViewPane extends GridPane implements IViewObserver, ISeedObserve
     protected MapCellView[][] cellViews;
 
     public MapViewPane(int width, int height, JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> map,
-                       int cellSidePixels, SimulationViewPane simulationView) {
+                       int cellSidePixels, SimulationViewPane simulationView, Simulation simulation) {
         super();
         cellViews = new MapCellView[width][height];
         this.width = width;
@@ -32,7 +33,7 @@ public class MapViewPane extends GridPane implements IViewObserver, ISeedObserve
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 cellViews[i][j] = new MapCellView(this.cellSidePixels, map.isJungle(new Vector2dEucl(i, j)),
-                        simulationView, map, new Vector2dEucl(i, j));
+                        simulationView, map, new Vector2dEucl(i, j), simulation);
                 this.add(cellViews[i][j], i, height - 1 - j);
             }
         }

@@ -5,11 +5,11 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
@@ -58,6 +58,14 @@ public class IndividualStatisticsPane extends VBox implements IStarveObserver<An
     public void update(Animal animal) {
         this.getChildren().clear();
         this.getChildren().add(getGenotypeBox(animal.getGenotype()));
+        this.getChildren().add(
+                StatisticsViewPane.getLabelsBox("Direct kids count: ",
+                        family.getOffspringCounter(animal).currentDirectKidsCountProperty().asString())
+        );
+        this.getChildren().add(
+                StatisticsViewPane.getLabelsBox("Whole offspring count: ",
+                        family.getOffspringCounter(animal).currentOffspringCountProperty().asString())
+        );
 
         if (lastAnimal != null) {
             lastAnimal.removeStarveObserver(this);
@@ -112,6 +120,12 @@ public class IndividualStatisticsPane extends VBox implements IStarveObserver<An
         Stage stage = new Stage();
         stage.setTitle("Offspring plots");
         stage.setScene(scene);
+
+        scene.setOnKeyPressed(ke -> {
+            if (ke.getCode() == KeyCode.ESCAPE) {
+                stage.close();
+            }
+        });
 
         return stage;
     }

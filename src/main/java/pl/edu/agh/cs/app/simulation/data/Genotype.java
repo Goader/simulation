@@ -3,6 +3,7 @@ package pl.edu.agh.cs.app.simulation.data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 public class Genotype {
     /*
@@ -84,12 +85,21 @@ public class Genotype {
 
     // how the groups are selected is not defined
     public static Genotype fromTwoGenotypes(Genotype first, Genotype second) {
-        int dividingIndex = (int) (Math.random() * GENES_COUNT);
+        int firstDividingIndex = (int) (Math.random() * GENES_COUNT);
+        int secondDividingIndex = (int) (Math.random() * (GENES_COUNT - firstDividingIndex)) + firstDividingIndex;
 
-        List<Integer> firstGenesList = genesCounterToList(first.genesCounter).subList(0, dividingIndex);
-        List<Integer> secondGenesList = genesCounterToList(second.genesCounter).subList(dividingIndex, GENES_COUNT);
+        if (Math.random() > 1.0/2) {
+            Genotype tmp = first;
+            first = second;
+            second = tmp;
+        }
+
+        List<Integer> firstGenesList = genesCounterToList(first.genesCounter).subList(0, firstDividingIndex);
+        List<Integer> secondGenesList = genesCounterToList(second.genesCounter).subList(firstDividingIndex, secondDividingIndex);
+        List<Integer> thirdGenesList = genesCounterToList(first.genesCounter).subList(secondDividingIndex, GENES_COUNT);
 
         firstGenesList.addAll(secondGenesList);
+        firstGenesList.addAll(thirdGenesList);
 
         ArrayList<Integer> childCounter = genesListToCounter(firstGenesList);
 
@@ -113,6 +123,12 @@ public class Genotype {
     public int getRandomRotation() {
         ArrayList<Integer> genesList = genesCounterToList(genesCounter);
         return genesList.get((int) (Math.random() * genesList.size()));
+    }
+
+    public int getDominatingGene() {
+        return IntStream.range(0, genesCounter.size())
+                .reduce((i, j) -> genesCounter.get(i) > genesCounter.get(j) ? i : j)
+                .getAsInt();
     }
 
     public static Genotype generateRandomGenotype() {
