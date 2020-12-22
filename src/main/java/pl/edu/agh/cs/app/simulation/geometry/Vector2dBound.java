@@ -10,15 +10,6 @@ public class Vector2dBound extends AbstractVector2d {
         this.yBound = yBound;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        IVector2d vector2d = (IVector2d) o;
-        return x == vector2d.getX() &&
-                y == vector2d.getY();
-    }
-
     public int getXBound() {
         return xBound;
     }

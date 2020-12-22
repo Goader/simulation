@@ -43,7 +43,7 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
         int cellSide = maxMapHeightPx / mapHeight;
         if (cellSide * mapWidth > maxMapWidthPx) cellSide = maxMapWidthPx / mapWidth;
 
-        this.mapView = new MapViewPane(mapWidth, mapHeight, simulation.getMap(), cellSide);
+        this.mapView = new MapViewPane(mapWidth, mapHeight, simulation.getMap(), cellSide, this);
         this.statisticsView = new StatisticsViewPane(pxCenterWidth - cellSide * mapWidth - centerSpacing,
                 pxCenterHeight,
                 simulation.getStatistics());
@@ -57,6 +57,10 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
             animal.addViewObserver(mapView);
             animal.addBreedObserver(this);
         }
+    }
+
+    public void showIndividualStatistics(Animal animal) {
+        statisticsView.drawIndividualStatistics(animal);
     }
 
     @Override

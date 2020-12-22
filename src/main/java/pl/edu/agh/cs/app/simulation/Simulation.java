@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Animal> {
-    protected final JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map;
+    protected final JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> map;
     protected final SimulationStatus status;
     protected final HashSet<Animal> animals;
     protected final PlantSeeder seeder;
@@ -69,7 +69,7 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
         return statistics;
     }
 
-    public JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> getMap() {
+    public JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> getMap() {
         return map;
     }
 

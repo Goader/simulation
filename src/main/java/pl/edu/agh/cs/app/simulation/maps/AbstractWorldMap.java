@@ -15,9 +15,9 @@ abstract public class AbstractWorldMap
     // there is a problem, EM should extend IE too, that will be true for all the levels of abstraction on the way down
     // still, i couldn't make it happen as Java does not support multiple bounds if there is another type parameter among them
     // so, as in Python, we assume programmers do read documentation and won't fail that little moment :)
-    protected HashMap<V, T> cells;
+    public HashMap<V, T> cells;
 
-    public AbstractWorldMap() {
+    protected AbstractWorldMap() {
         cells = new HashMap<>();
     }
 

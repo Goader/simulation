@@ -10,6 +10,7 @@ import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Plant;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
 import pl.edu.agh.cs.app.simulation.observers.*;
+import pl.edu.agh.cs.app.ui.panes.IndividualStatisticsPane;
 import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
 
     protected ArrayList<FloatProperty> averageGenotype;
 
+    protected FamilyLinker family;
+
     public PopulationStatistics(Simulation simulation, SimulationStatus status) {
         this.simulation = simulation;
         this.status = status;
@@ -57,6 +60,10 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         averageEnergy.set(simulation.getConfig().getStartEnergy());
 
         averageGenotype = new ArrayList<>();
+    }
+
+    public FamilyLinker getFamily() {
+        return family;
     }
 
     protected void updateAverageGenotype(Genotype genotype, int countBefore, int countAfter) {
@@ -97,6 +104,8 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
             birthday.put(animal, 0);
             kidsCount.put(animal, 0);
         }
+
+        family = new FamilyLinker(animals, status);
     }
 
     @Override

@@ -14,7 +14,7 @@ abstract public class AbstractVector2d implements IVector2d {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof IVector2d)) return false;
         IVector2d vector2d = (IVector2d) o;
         return x == vector2d.getX() &&
                 y == vector2d.getY();
