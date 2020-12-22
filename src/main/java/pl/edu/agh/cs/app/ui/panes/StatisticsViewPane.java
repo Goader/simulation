@@ -8,17 +8,20 @@ import javafx.scene.layout.VBox;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
 import pl.edu.agh.cs.app.simulation.statistics.PopulationStatistics;
+import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 import java.util.ArrayList;
 
 public class StatisticsViewPane extends VBox {
     protected PopulationStatistics statistics;
     protected IndividualStatisticsPane individualStatistics;
+    protected SimulationStatus status;
 
-    public StatisticsViewPane(int width, int height, PopulationStatistics statistics) {
+    public StatisticsViewPane(int width, int height, PopulationStatistics statistics, SimulationStatus status) {
         this.setMaxSize(width, height);
         this.setMinWidth(width);
 
+        this.status = status;
         this.statistics = statistics;
 
         this.getChildren().add(getLabelsBox("Current plants count: ", statistics.plantsCountProperty().asString()));
@@ -32,7 +35,7 @@ public class StatisticsViewPane extends VBox {
         blankSpace.setMinHeight(20);
         this.getChildren().add(blankSpace);
 
-        individualStatistics = new IndividualStatisticsPane(statistics.getFamily());
+        individualStatistics = new IndividualStatisticsPane(statistics.getFamily(), status);
         this.getChildren().add(individualStatistics);
     }
 

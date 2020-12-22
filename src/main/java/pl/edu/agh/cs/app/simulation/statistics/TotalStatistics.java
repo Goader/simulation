@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
+import pl.edu.agh.cs.app.ui.utils.JSONStatWriter;
 import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 import java.util.ArrayList;
@@ -61,6 +62,15 @@ public class TotalStatistics implements ChangeListener<Number> {
     }
 
     public void writeTotalStatistics() {
-
+        ArrayList<Float> average = new ArrayList<>();
+        for (Float gene : totalAverageGenotype) {
+            average.add(gene / status.getDay());
+        }
+        JSONStatWriter.write((float) totalPlantsCount / status.getDay(),
+                (float) totalAnimalsCount / status.getDay(),
+                totalAverageEnergy / status.getDay(),
+                totalAverageLifetime / status.getDay(),
+                totalAverageKidsCount / status.getDay(),
+                average);
     }
 }

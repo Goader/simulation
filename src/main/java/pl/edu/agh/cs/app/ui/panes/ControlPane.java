@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import pl.edu.agh.cs.app.simulation.Simulation;
 import pl.edu.agh.cs.app.ui.utils.SimulationStatus;
 
 public class ControlPane extends HBox {
@@ -12,27 +13,31 @@ public class ControlPane extends HBox {
     protected Button startBtn;
     protected Button pauseBtn;
     protected Button stopBtn;
+    protected Button writeBtn;
     protected HBox daysLabelsBox;
     protected Label firstLabel;
     protected Label secondLabel;
 
-    public ControlPane(SimulationStatus status) {
+    public ControlPane(Simulation simulation) {
         super(30);
 
-        this.status = status;
+        this.status = simulation.getStatus();
         startBtn = new Button("Start");
         startBtn.setOnAction(e -> startOnClick());
         pauseBtn = new Button("Pause");
         pauseBtn.setOnAction(e -> pauseOnClick());
         stopBtn = new Button("Stop");
         stopBtn.setOnAction(e -> stopOnClick());
+        writeBtn = new Button("Write JSON");
+        writeBtn.setOnAction(e -> simulation.getTotalStatistics().writeTotalStatistics());
+
 
         firstLabel = new Label("The days passed: ");
         secondLabel = new Label();
         secondLabel.textProperty().bind(status.getDayProperty().asString());
         daysLabelsBox = new HBox(0, firstLabel, secondLabel);
 
-        this.getChildren().addAll(startBtn, pauseBtn, stopBtn, daysLabelsBox);
+        this.getChildren().addAll(startBtn, pauseBtn, stopBtn, writeBtn, daysLabelsBox);
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(10, 10, 10, 10));
     }

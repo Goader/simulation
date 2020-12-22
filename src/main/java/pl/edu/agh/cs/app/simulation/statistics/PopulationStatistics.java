@@ -38,6 +38,7 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
     protected FloatProperty averageKidsCount;
 
     protected ArrayList<FloatProperty> averageGenotype;
+    protected IntegerProperty dominatingGene;
 
     protected FamilyLinker family;
 
@@ -60,10 +61,22 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
         averageEnergy.set(simulation.getConfig().getStartEnergy());
 
         averageGenotype = new ArrayList<>();
+        dominatingGene = new SimpleIntegerProperty();
     }
 
     public FamilyLinker getFamily() {
         return family;
+    }
+
+    protected int dominatingGene() {
+        int maxGene = 0;
+        float domination = averageGenotype.get(0).get();
+        for (int i = 1; i < averageGenotype.size(); i++) {
+            if (domination < averageGenotype.get(i).get()) {
+                maxGene = i;
+            }
+        }
+        return maxGene;
     }
 
     protected void updateAverageGenotype(Genotype genotype, int countBefore, int countAfter) {
@@ -80,6 +93,7 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
             totalCount += (sign * newGenesCounter.get(i));
             averageGenotype.get(i).set(totalCount / countAfter);
         }
+        dominatingGene.set(dominatingGene());
     }
 
     public void initialiseAnimals(List<Animal> animals) {
@@ -232,6 +246,14 @@ public class PopulationStatistics implements IEnergyChangeObserver<Animal>,
 
     public FloatProperty averageKidsCountProperty() {
         return averageKidsCount;
+    }
+
+    public int getDominatingGene() {
+        return dominatingGene.get();
+    }
+
+    public IntegerProperty dominatingGeneProperty() {
+        return dominatingGene;
     }
 
     public ArrayList<FloatProperty> averageGenotypeProperties() {

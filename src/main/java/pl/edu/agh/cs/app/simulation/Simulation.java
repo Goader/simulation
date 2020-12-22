@@ -69,6 +69,10 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
         return statistics;
     }
 
+    public TotalStatistics getTotalStatistics() {
+        return totalStatistics;
+    }
+
     public JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> getMap() {
         return map;
     }

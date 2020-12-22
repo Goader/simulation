@@ -21,7 +21,7 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
         this.simulation = simulation;
         status = simulation.getStatus();
 
-        ControlPane controls = new ControlPane(status);
+        ControlPane controls = new ControlPane(simulation);
         this.setBottom(controls);
 
         int padding = 10;
@@ -46,7 +46,8 @@ public class SimulationViewPane extends BorderPane implements IBreedObserver<Ani
         this.mapView = new MapViewPane(mapWidth, mapHeight, simulation.getMap(), cellSide, this);
         this.statisticsView = new StatisticsViewPane(pxCenterWidth - cellSide * mapWidth - centerSpacing,
                 pxCenterHeight,
-                simulation.getStatistics());
+                simulation.getStatistics(),
+                status);
 
         this.setCenter(new HBox(centerSpacing, statisticsView, mapView));
         this.setPadding(new Insets(padding, padding, padding, padding));
