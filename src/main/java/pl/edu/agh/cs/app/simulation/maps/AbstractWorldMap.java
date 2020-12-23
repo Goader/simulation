@@ -4,10 +4,12 @@ import pl.edu.agh.cs.app.simulation.cells.IMapCell;
 import pl.edu.agh.cs.app.simulation.entities.IMapElement;
 import pl.edu.agh.cs.app.simulation.entities.IMapMovableElement;
 import pl.edu.agh.cs.app.simulation.geometry.IVector2d;
+import pl.edu.agh.cs.app.simulation.geometry.Vector2dBound;
 import pl.edu.agh.cs.app.simulation.observers.IMoveObserver;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
 
 abstract public class AbstractWorldMap
         <T extends IMapCell, V extends IVector2d, IE extends IMapElement<V>, EM extends IMapMovableElement>
@@ -42,6 +44,10 @@ abstract public class AbstractWorldMap
         return false;
     }
 
+    public Set<V> getActivePositions() {
+        return ((HashMap<V, T>) cells.clone()).keySet();
+    }
+
     protected boolean containsCellAt(IVector2d position) {
         return cells.containsKey(position);
     }
@@ -56,7 +62,6 @@ abstract public class AbstractWorldMap
         return containsCellAt(position) && !cells.get(position).isEmpty();
     }
 
-    // not the best idea, it does not follow encapsulation, may be fixed later
     @Override
     public Optional<T> getCell(IVector2d position) {
         return Optional.ofNullable(cells.get(position));

@@ -23,6 +23,7 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
     protected final SimulationStatus status;
     protected final HashSet<Animal> animals;
     protected final PlantSeeder seeder;
+    protected final Engine<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> engine;
     protected final SimulationConfiguration config;
     protected final PopulationStatistics statistics;
     protected final TotalStatistics totalStatistics;
@@ -32,6 +33,7 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
         map = new JungleMap<>(config.getWidth(), config.getHeight(), config.getJungleWidth(), config.getJungleHeight());
         status = new SimulationStatus();
         seeder = new PlantSeeder(map);
+        engine = new Engine<>(map);
         animals = new HashSet<>();
         statistics = new PopulationStatistics(this, status);
         totalStatistics = new TotalStatistics(this, status);
@@ -89,6 +91,10 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
         return seeder;
     }
 
+    public Engine getEngine() {
+        return engine;
+    }
+
     public void nextDay() {
         status.nextDay();
 
@@ -98,9 +104,9 @@ public class Simulation implements IBreedObserver<Animal>, IStarveObserver<Anima
             animal.move();
         }
 
-        map.feed();
+        engine.feed();
 
-        map.bringTogether();
+        engine.bringTogether();
 
         seeder.seedPlantJungle(config.getPlantEnergy());
         seeder.seedPlantNotJungle(config.getPlantEnergy());

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="pl.edu.agh.cs.app.simulation.geometry.Vector2dEuclTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-12-22T18:24:32" hostname="NH5-NH7" time="0.006">
+<testsuite name="pl.edu.agh.cs.app.simulation.geometry.Vector2dEuclTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-12-23T00:33:35" hostname="NH5-NH7" time="0.006">
   <properties/>
   <testcase name="subtract()" classname="pl.edu.agh.cs.app.simulation.geometry.Vector2dEuclTest" time="0.0"/>
   <testcase name="upperRight()" classname="pl.edu.agh.cs.app.simulation.geometry.Vector2dEuclTest" time="0.0"/>

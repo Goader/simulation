@@ -84,34 +84,6 @@ public class JungleMap<T extends JungleMapCell, IE extends IJungleMapElement, E 
         return false;
     }
 
-    public void feed() {
-        for (T cell : cells.values()) {
-            if (cell.hasMovableElements() && cell.hasNonMovableElements()) {
-                LinkedList<EM> elements = new LinkedList<>(cell.getMaxEnergyElements());
-                E plant = (E) cell.getNonMovableElements().getFirst();
-                int count = elements.size();
-                int energyPerEl = plant.getEnergy() / count;
-                int energyLeftover = plant.getEnergy() % count;
-                for (EM el : elements) {
-                    el.eat(plant, energyLeftover > 0 ? energyPerEl + 1 : energyPerEl);
-                    energyLeftover--;
-                }
-            }
-        }
-    }
-
-    public void bringTogether() {
-        Collection<T> cellsCopy = ((HashMap) cells.clone()).values();
-        for (T cell : cellsCopy) {
-            if (cell.movableElementsCount() >= 2) {
-                Optional<Map.Entry<EM, EM>> optPair = cell.getBreedPair();
-                if (optPair.isEmpty()) continue;
-                Map.Entry<EM, EM> pair = optPair.get();
-                pair.getKey().breed(pair.getValue());
-            }
-        }
-    }
-
     public boolean isJungle(IVector2d position) {
         return position.follows(lowerleftJungleCorner) && position.precedes(upperrightJungleCorner);
     }

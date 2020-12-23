@@ -2,6 +2,7 @@ package pl.edu.agh.cs.app.simulation.maps;
 
 
 import org.junit.jupiter.api.Test;
+import pl.edu.agh.cs.app.simulation.Engine;
 import pl.edu.agh.cs.app.simulation.cells.JungleMapCell;
 import pl.edu.agh.cs.app.simulation.data.Genotype;
 import pl.edu.agh.cs.app.simulation.entities.mirrormap.junglemap.Animal;
@@ -384,6 +385,7 @@ class JungleMapTest {
     @Test
     void feedTest() {
         JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map = new JungleMap<>(10, 10, 4, 4);
+        Engine engine = new Engine(map);
         Vector2dBound vec1 = new Vector2dBound(2, 3, 10, 10);
         Vector2dBound vec2 = new Vector2dBound(4, 5, 10, 10);
         Vector2dBound vec3 = new Vector2dBound(9, 1, 10, 10);
@@ -422,7 +424,7 @@ class JungleMapTest {
 
         for (Animal anim : activeAnimals) map.place(anim);
 
-        map.feed();
+        engine.feed();
 
         assertEquals(animal11.getEnergy(), 12);
         assertEquals(animal12.getEnergy(), 12);
@@ -445,7 +447,7 @@ class JungleMapTest {
         map.place(animal22);
         activeAnimals.addAll(Arrays.asList(animal13, animal22));
 
-        map.feed();
+        engine.feed();
 
         assertEquals(animal11.getEnergy(), 12);
         assertEquals(animal12.getEnergy(), 12);
@@ -462,7 +464,7 @@ class JungleMapTest {
         map.place(plant23);
         for (int i = 0; i < 9; i++) for (Animal anim : activeAnimals) anim.move();
 
-        map.feed();
+        engine.feed();
 
         assertEquals(animal11.getEnergy(), 12);
         assertEquals(animal12.getEnergy(), 12);
@@ -486,7 +488,7 @@ class JungleMapTest {
         map.place(plant32);
         for (int i = 0; i < 9; i++) for (Animal anim : activeAnimals) anim.move();
 
-        map.feed();
+        engine.feed();
 
         assertEquals(animal11.getEnergy(), 12);
         assertEquals(animal12.getEnergy(), 12);
@@ -510,6 +512,7 @@ class JungleMapTest {
     @Test
     void bringTogetherTest() {
         JungleMap<JungleMapCell, IJungleMapElement, Plant, Animal> map = new JungleMap<>(10, 10, 4, 4);
+        Engine engine = new Engine(map);
         Vector2dBound vec1 = new Vector2dBound(2, 3, 10, 10);
         Vector2dBound vec2 = new Vector2dBound(5, 5, 10, 10);
         Vector2dBound vec3 = new Vector2dBound(9, 1, 10, 10);
@@ -573,7 +576,7 @@ class JungleMapTest {
         assertTrue(map.getCell(vec2t).isEmpty());
         assertTrue(map.getCell(vec3t).isEmpty());
 
-        map.bringTogether();
+        engine.bringTogether();
 
         assertTrue(map.containsCellAt(vec1t));
         assertTrue(map.containsCellAt(vec2t));
@@ -642,6 +645,7 @@ class JungleMapTest {
     @Test
     void childMovingTest() {
         JungleMap<JungleMapCell<IJungleMapElement, Plant, Animal>, IJungleMapElement, Plant, Animal> map = new JungleMap<>(10, 10, 4, 4);
+        Engine engine = new Engine(map);
         Vector2dBound vec = new Vector2dBound(2, 3, 10, 10);
         Animal animal11 = new Animal(vec, 30, 0, genotype, map);
         Animal animal12 = new Animal(vec, 30, 0, genotype, map);
@@ -661,7 +665,7 @@ class JungleMapTest {
         map.place(animal11);
         map.place(animal12);
 
-        map.bringTogether();
+        engine.bringTogether();
 
         Vector2dBound vector = new Vector2dBound(3, 3, 10, 10);
 
