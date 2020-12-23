@@ -23,15 +23,15 @@ _To run the application use **`Gradle` -> `Tasks` -> `Application`-> `run`**._
 
 Mark | Definition
 ----------- | -------------
-![Savanna Field](/src/main/resources/) | Savanna field
-![Jungle Field](/src/main/resources/) | Jungle field
-![Plant](/src/main/resources/) | Plant
-![High Energy Animal](/src/main/resources/) | High energy animal
-![Medium Energy Animal](/src/main/resources/) | Medium energy animal
-![Low Energy Animal](/src/main/resources/) | Low energy animal
-![Critical Energy Animal](/src/main/resources/) | Critical energy animal
-![Currently Observed Animal](/src/main/resources/) | Currently observed animal
-![Dominant Gene Animal](/src/main/resources/) | Animal with dominant gene
+![Savanna Field](readme/savanna.jpg) | Savanna field
+![Jungle Field](readme/jungle.jpg) | Jungle field
+![Plant](readme/plant.jpg) | Plant
+![High Energy Animal](readme/paw_high.png) | High energy animal
+![Medium Energy Animal](readme/paw_med.png) | Medium energy animal
+![Low Energy Animal](readme/paw_low.png) | Low energy animal
+![Critical Energy Animal](readme/paw_critical.png) | Critical energy animal
+![Currently Observed Animal](readme/paw_focused.png) | Currently observed animal
+![Dominant Gene Animal](readme/paw_gene.png) | Animal with dominant gene
 
 ### :joystick: Controls
 
@@ -44,6 +44,6 @@ Mark | Definition
 
 ### :film_strip: Usage example
 
-![Usage example](readme_example.gif)
+![Usage example](readme/readme_example.gif)
 
-## :keyboard: Created by @Goader
+## :keyboard: Created by [@Goader](https://github.com/Goaderhttps://github.com/Goader)
